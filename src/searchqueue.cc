@@ -7,12 +7,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -83,7 +83,7 @@ void SearchQueue::Remove(int child) {
 
 			if (i==n) continue;
 			Action temp = heap[n];
-			while(i>0 && temp.gain + temp.gainrev > 
+			while(i>0 && temp.gain + temp.gainrev >
 			heap[(i-1)/2].gain + heap[(i-1)/2].gainrev) {
 				heap[i] = heap[(i-1)/2];
 
@@ -91,7 +91,7 @@ void SearchQueue::Remove(int child) {
 				list2.erase(find(list2.begin(),list2.end(),
 							(i-1)/2));
 				list2.push_front(i);
-				
+
 				i = (i-1)/2;
 			}
 			heap[i] = temp;
@@ -110,8 +110,8 @@ int SearchQueue::Heapify(int i, double tempk) {
 	while(i<n) {
 		l = i*2+1;
 		r = i*2+2;
-		if (l < n && (heap[l].gain + heap[l].gainrev > tempk || 
-		isinf(tempk))) {
+		if (l < n && (heap[l].gain + heap[l].gainrev > tempk ||
+                              std::isinf(tempk))) {
 			large = l;
 			larget = heap[l].gain + heap[l].gainrev;
 		} else {
@@ -124,7 +124,7 @@ int SearchQueue::Heapify(int i, double tempk) {
 		}
 		if (large==i) {
 			deque<int> &list = places[heap[i].child];
-			deque<int>::iterator it = 
+			deque<int>::iterator it =
 				find(list.begin(),list.end(),oldlarge);
 			if(it != list.end()) list.erase(it);
 			list.push_front(i);
@@ -133,7 +133,7 @@ int SearchQueue::Heapify(int i, double tempk) {
 		Action temp = heap[i];
 		heap[i] = heap[large];
 		heap[large] = temp;
-	
+
 		deque<int> &list = places[temp.child];
 		deque<int>::iterator it =
 				find(list.begin(),list.end(),i);

@@ -121,11 +121,11 @@ TIME_STRUCT GET_TIME;
 #   ifdef __INTEL_COMPILER
 #       include <mathinf.h>
         inline bool isinfinite(double x) { return isinf(x); }
-        inline bool isfinite(double x) { return !isinf(x) && !isnan(x); }
+//        inline bool isfinite(double x) { return !isinf(x) && !isnan(x); }
         inline bool finite(double x) { return !isinf(x); }
 #   else
         inline bool isinfinite(double x) { return std::isinf(x); }
-        inline bool isfinite(double x) { return !std::isinf(x) && !std::isnan(x); }
+ //       inline bool isfinite(double x) { return !std::isinf(x) && !std::isnan(x); }
 #   endif
 #endif
 

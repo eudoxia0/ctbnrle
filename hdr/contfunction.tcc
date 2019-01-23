@@ -7,12 +7,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,6 +20,7 @@
 #include <iostream>
 #include <cmath>
 #include <stdlib.h>
+#include <utility>
 
 namespace ctbn {
 
@@ -36,7 +37,7 @@ ContFunction<VALUE>::~ContFunction() {
 
 /*
 template <class VALUE>
-ContFunction<VALUE>::ContFunction(const ContFunction &rhs) 
+ContFunction<VALUE>::ContFunction(const ContFunction &rhs)
 : start(rhs.start), end(rhs.end), empty(rhs.empty) {
 	values.clear();
 	typename map<double,VALUE>::const_iterator it = rhs.values.begin();
@@ -73,7 +74,7 @@ VALUE ContFunction<VALUE>::GetVal(double t) const {
 		exit(0);
 	}
 
-	
+
 /*
 	typename map<double,VALUE>::const_iterator it = values.find(t);
 	if(it != values.end())
@@ -97,7 +98,7 @@ VALUE ContFunction<VALUE>::GetVal(double t) const {
 	//ret *= c;
 	//ret += *vs;
 
-	//delete vs, 
+	//delete vs,
 	//delete ve;
 
 	//return ret;
@@ -110,7 +111,7 @@ VALUE ContFunction<VALUE>::GetDeriv(double t) {
 		exit(0);
 	}
 
-	else if(start == end || 
+	else if(start == end ||
 		fabs(t-start) < 1e-9 || fabs(t-end) < 1e-9) {
 		cout << "Not differentiable." << endl;
 		exit(0);
@@ -151,7 +152,7 @@ VALUE ContFunction<VALUE>::GetDeriv(double t) {
 	VALUE ret = *ve - *vs;
 	ret /= te - ts;
 
-	delete vs, 
+	delete vs,
 	delete ve;
 
 	return ret;
@@ -165,7 +166,7 @@ VALUE ContFunction<VALUE>::GetIntercept(double t) {
 		exit(0);
 	}
 
-	else if(start == end || 
+	else if(start == end ||
 		fabs(t-start) < 1e-9 || fabs(t-end) < 1e-9) {
 		cout << "No intercept." << endl;
 		exit(0);
@@ -179,7 +180,7 @@ VALUE ContFunction<VALUE>::GetIntercept(double t) {
 		cin.get();
 		exit(0);
 	}
-		
+
 	typename map<double,VALUE>::const_iterator it = values.lower_bound(t);
 	typename map<double,VALUE>::const_iterator ite = it;
 	--it;
@@ -232,7 +233,7 @@ void ContFunction<VALUE>::Print() const {
 template <class VALUE>
 void ContFunction<VALUE>::AddVal(double t, const VALUE& val) {
 	if(values.find(t) == values.end()) {
-		values.insert(make_pair<double,VALUE>(t,val));
+		values.insert(std::make_pair(t,val));
 		if(empty) {
 			start = t;
 			end = t;

@@ -7,12 +7,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,7 +35,7 @@ const double PRECISION = 1e-5;
 
 
 MeanFieldInf::MeanFieldInf() : Inference(), factored(nullptr03),
-				initialized(false), optimized(false), 
+				initialized(false), optimized(false),
 				eps(1e-5) {
 }
 
@@ -65,7 +65,7 @@ void MeanFieldInf::SetTrajectory(const Trajectory *tr) {
 	this->tr = tr;
 }
 
-double MeanFieldInf::Filter(const Instantiation &x, double t, 
+double MeanFieldInf::Filter(const Instantiation &x, double t,
 				bool log) {
 	return 0.0;
 }
@@ -92,15 +92,15 @@ void MeanFieldInf::AddExpSuffStats(SS *ss, double w) {
 		double startprob = Smooth(b, tr->TimeBegin());
 		if(startprob>0) bn->AddSS(b, mss->p0ss, startprob*w);
 	} while(b.Inc());
-	
-	const CTBNDyn* cdyn = 
+
+	const CTBNDyn* cdyn =
 		dynamic_cast<const CTBNDyn *>(p->GetDynamics());
 	Context c = cdyn->Domain();
 	vector<int> varL = c.VarList();
 
 	vector<double> cutPoints;
 	for(unsigned int i=0; i<varL.size(); i++) {
-		vector<double> varCP = 
+		vector<double> varCP =
 			mus.find(varL[i])->second.GetCutPoints();
 		for(unsigned int j=0; j<varCP.size()-1; j++)
 			cutPoints.push_back(varCP[j]);
@@ -138,7 +138,7 @@ void MeanFieldInf::AddExpSuffStats(SS *ss, double w) {
 
 		Instantiation curri = tr->Values(v, tr->TimeBegin());
 		Instantiation nexti;
-		
+
 		Trajectory::Index index = tr->Begin(v);
 		while(!index.Done()) {
 			double t = index.Time();
@@ -154,7 +154,7 @@ void MeanFieldInf::AddExpSuffStats(SS *ss, double w) {
 						idx1.SetVal(parents);
 						idx2.SetVal(v2);
 						idx2.SetVal(parents);
-						double transSS = 
+						double transSS =
 							Smooth(parents, t);
 						node->AddTransSS(idx1,
 							idx2,t,
@@ -203,7 +203,7 @@ void MeanFieldInf::AddExpSuffStats(SS *ss, double w) {
 void MeanFieldInf::AddExpSuffStats(const Dynamics *dyn, SS *ss,
 					double w) {
 	if(!optimized) Optimize();
-	
+
 	const Context &v = dyn->Domain();
 	int vid = v.MinVar();
 	const Context &cv = dyn->CondDomain();
@@ -213,7 +213,7 @@ void MeanFieldInf::AddExpSuffStats(const Dynamics *dyn, SS *ss,
 
 	vector<double> cutPoints;
 	for(unsigned int i=0; i<varL.size(); i++) {
-		vector<double> varCP = 
+		vector<double> varCP =
 			mus.find(varL[i])->second.GetCutPoints();
 		for(unsigned int j=0; j<varCP.size()-1; j++)
 			cutPoints.push_back(varCP[j]);
@@ -247,7 +247,7 @@ void MeanFieldInf::AddExpSuffStats(const Dynamics *dyn, SS *ss,
 
 	Instantiation curri = tr->Values(v, tr->TimeBegin());
 	Instantiation nexti;
-	
+
 	Trajectory::Index index = tr->Begin(v);
 	while(!index.Done()) {
 		double t = index.Time();
@@ -263,7 +263,7 @@ void MeanFieldInf::AddExpSuffStats(const Dynamics *dyn, SS *ss,
 					idx1.SetVal(parents);
 					idx2.SetVal(v2);
 					idx2.SetVal(parents);
-					double transSS = 
+					double transSS =
 						Smooth(parents, t);
 					dyn->AddTransSS(idx1,
 						idx2,t,
@@ -338,7 +338,7 @@ void MeanFieldInf::Initialize() {
 
 	for(unsigned int ii=0; ii<varL.size(); ii++) {
 		int curVarId = varL[ii];
-		const Dynamics *curNode = 
+		const Dynamics *curNode =
 			dynamic_cast<const CTBNDyn *>(
 				factored->GetDynamics())->
 				NodeByVar(curVarId);
@@ -388,7 +388,7 @@ void MeanFieldInf::Initialize() {
 			vals.push_back(evid);
 		}
 		AddVar(curVarId);
-		transTimes.insert(make_pair<int,vector<double> >(
+		transTimes.insert(std::make_pair(
 			curVarId,times));
 
 		bool inHidden = false;
@@ -459,7 +459,7 @@ void MeanFieldInf::Initialize() {
 					}
 					gammaVal[k][k] = -sumrow;
 				}
-				if(j==alpha.size()-1 && abs(te-t) > 1e-11) 
+				if(j==alpha.size()-1 && abs(te-t) > 1e-11)
 					t -= 1e-11;
 				AddMuVal(curVarId,t,dist);
 				AddGammaVal(curVarId,t,gammaVal);
@@ -470,7 +470,7 @@ void MeanFieldInf::Initialize() {
 }
 
 void MeanFieldInf::Optimize() {
-	// A bound on the maximum number of iterations for the optimization of the 
+	// A bound on the maximum number of iterations for the optimization of the
 	// ODEs
 	const int KMAX = ParamInt("KMAX",30);
 
@@ -492,28 +492,28 @@ void MeanFieldInf::Optimize() {
 		prevEnergy = curEnergy;
 		for(unsigned int i=0; i<varL.size(); i++) {
 			int curVarId = varL[i];
-			ContFunction<vectr> &curMu = 
+			ContFunction<vectr> &curMu =
 				mus.find(curVarId)->second;
-			ContFunction<matrix> &curGamma = 
+			ContFunction<matrix> &curGamma =
 				gammas.find(curVarId)->second;
 
 			const vector<double_pair> &hiddenPairs =
 				hiddenIntervals.find(curVarId)->second;
 			int states = GetNumStates(curVarId);
 
-				
+
 			for(unsigned int j=0; j<hiddenPairs.size(); j++) {
 				double t0 = hiddenPairs[j].first;
 				double t1 = hiddenPairs[j].second;
 
 				//Get children transitions
-				map<double,int> childTrans = 
+				map<double,int> childTrans =
 					GetChildTransTimes(curVarId,t0,t1);
-				map<double,int>::reverse_iterator rit = 
+				map<double,int>::reverse_iterator rit =
 					childTrans.rbegin();
 
 				rhoTemp.Clear();
-				if(j==hiddenPairs.size()-1 && 
+				if(j==hiddenPairs.size()-1 &&
 					tr->Value(varL[i],tr->TimeEnd())) {
 					rhoTemp.AddVal(t1,vectr(states,1));
 				}
@@ -527,7 +527,7 @@ void MeanFieldInf::Optimize() {
 				double t1temp = t1;
 
 				// Take care of observed child transitions
-				while(rit != childTrans.rend() && 
+				while(rit != childTrans.rend() &&
 					rit->first > t0) {
 					double tPlus = rit->first+1e-11;
 					int chVarId = rit->second;
@@ -536,13 +536,13 @@ void MeanFieldInf::Optimize() {
 					mfBackward(this,curVarId,
 						t1,tPlus,eps);
 
-					pair<int,int> trans = 
+					pair<int,int> trans =
 						GetTrans(chVarId,
 							rit->first);
 					int y0 = trans.first;
 					int y1 = trans.second;
 
-					vectr rhotPlus = 
+					vectr rhotPlus =
 						rhoTemp.GetVal(tPlus);
 					for(int k=0; k<states; k++) {
 						CalcExpectQ(chVarId,
@@ -570,7 +570,7 @@ void MeanFieldInf::Optimize() {
 					vectr rhot0 = rhoTemp.GetVal(t0);
 					CalcMuStart(curVarId,rhot0,mut0);
 					muTemp.AddVal(t0,mut0);
-					
+
 				}
 				else {
 					muTemp.AddVal(t0,curMu.GetVal(t0));
@@ -586,8 +586,8 @@ void MeanFieldInf::Optimize() {
 				// Solve mu forward
 				// Integrate from t0 to t1
 				mfForward(this,curVarId,t0,t1,eps);
-			
-				if(j==hiddenPairs.size()-1 && 
+
+				if(j==hiddenPairs.size()-1 &&
 					tr->Value(curVarId,
 						tr->TimeEnd()) == -1) {
 					muTemp.AddVal(t1,
@@ -611,7 +611,7 @@ void MeanFieldInf::Optimize() {
 		deltaEnergies[runNumber%3] = curEnergy - prevEnergy;
 		converged = runNumber >= KMAX
 				|| abs(deltaEnergies.sum() /
-				(3 * prevEnergy)) < 0.01 
+				(3 * prevEnergy)) < 0.01
 				|| curEnergy == 0
 				|| abs(curEnergy - prevEnergy) < PRECISION;
 		runNumber++;
@@ -629,7 +629,7 @@ void MeanFieldInf::CalcRhoGrad(int varid, double t, const vectr &rhoVal,
 
 	vectr psi(states,0.0);
 	CalcPsi(varid,t,psi);
-	
+
 	for(int xi=0; xi<states; xi++) {
 		rhoGrad[xi] = -rhoVal[xi]*(qBack[xi][xi] + psi[xi]);
 		for(int yi=0; yi<states; yi++) {
@@ -653,7 +653,7 @@ void MeanFieldInf::CalcMuGrad(int varid, double t, const matrix &gammaVal,
 	}
 }
 
-void MeanFieldInf::CalcGamma(int varid, double t, 
+void MeanFieldInf::CalcGamma(int varid, double t,
 				const vectr &muVal, const vectr &rhoVal,
 				matrix &gamma) {
 	int states = GetNumStates(varid);
@@ -667,7 +667,7 @@ void MeanFieldInf::CalcGamma(int varid, double t,
 		for(int yi=0; yi<states; yi++) {
 			if(xi==yi) continue;
 			double numerator = eQ[xi][yi]*rhoVal[yi]*muVal[xi];
-			double res = 
+			double res =
 				rhoVal[xi] < 1e-5 ? 0 : numerator/rhoVal[xi];
 			gamma[xi][yi] = res;
 			sum -= res;
@@ -676,10 +676,10 @@ void MeanFieldInf::CalcGamma(int varid, double t,
 	}
 }
 
-void MeanFieldInf::CalcExpectQ(int varid, double t, matrix &expectQ, 
+void MeanFieldInf::CalcExpectQ(int varid, double t, matrix &expectQ,
 	int jvarid, int xj, bool log) {
-	const CTBNDyn* cdyn = 
-		dynamic_cast<const CTBNDyn* >(p->GetDynamics());	
+	const CTBNDyn* cdyn =
+		dynamic_cast<const CTBNDyn* >(p->GetDynamics());
 	const MarkovDyn* node = dynamic_cast<const MarkovDyn* >(
 					cdyn->NodeByVar(varid));
 	const Context& v = node->Domain();
@@ -688,7 +688,7 @@ void MeanFieldInf::CalcExpectQ(int varid, double t, matrix &expectQ,
 	int states = v.Size();
 //	expectQ = matrix(states,states,0.0);
 //	expectQ *= 0;
-	
+
 	Context jv;
 	bool cond = false;
 	if(jvarid != -1 && xj != -1) {
@@ -711,7 +711,7 @@ void MeanFieldInf::CalcExpectQ(int varid, double t, matrix &expectQ,
 			do {
 				double muprod = 1.0;
 				for(unsigned int k=0; k<paList.size(); k++) {
-					double thismu = 
+					double thismu =
 						mus.find(paList[k])->
 						second.GetVal(t)
 						[i.Value(paList[k])];
@@ -720,7 +720,7 @@ void MeanFieldInf::CalcExpectQ(int varid, double t, matrix &expectQ,
 				if (muprod==0.0) continue;
 				idx.SetVal(i);
 				idx.SetVal(jvi);
-				double rate = 
+				double rate =
 					(*node)(idx)->Intensity()[xi][yi];
 				if(xi!=yi && log) rate = ::log(rate);
 				val += muprod*rate;
@@ -735,8 +735,8 @@ void MeanFieldInf::CalcPsi(int varid, double t, vectr &psi) {
 	int states = GetNumStates(varid);
 	psi *= 0;
 
-	const CTBNDyn* cdyn = 
-		dynamic_cast<const CTBNDyn* >(p->GetDynamics());	
+	const CTBNDyn* cdyn =
+		dynamic_cast<const CTBNDyn* >(p->GetDynamics());
 	vector<int> children = cdyn->GetChildrenByVar(varid);
 
 	for(unsigned int j=0; j<children.size(); j++) {
@@ -776,7 +776,7 @@ double MeanFieldInf::CalcPointCompEnergy(int varid, double t) {
 
 	for(int x=0; x<states; x++) {
 		if(muVal[x] <= 0) continue;
-		res += ((muVal[x]*eQ[x][x]) - 
+		res += ((muVal[x]*eQ[x][x]) -
 			gammaVal[x][x]*(1+log(muVal[x])));
 		for(int y=0; y<states; y++) {
 			if(x==y) continue;
@@ -809,13 +809,13 @@ double MeanFieldInf::PointTransSuffStat(int varid, const Instantiation &x1,
 		ret *= gammas.find(varid)->second.GetVal(t)[i1][i2];
 		ret *= Smooth(parents,t);
 	}
-	else 
+	else
 		ret = 0;
 	return ret;
 }
 
 double MeanFieldInf::CalcCompEnergy(int varid) {
-	ContFunction<vectr> &curMu = 
+	ContFunction<vectr> &curMu =
 		mus.find(varid)->second;
 	map<int,vector<double> >::iterator it = transTimes.find(varid);
 	double res = 0;
@@ -832,7 +832,7 @@ double MeanFieldInf::CalcEnergy() {
 	double res = 0;
 	const Context &c = factored->GetDynamics()->Domain();
 	vector<int> varL = c.VarList();
-	for(unsigned int i=0; i<varL.size(); i++) 
+	for(unsigned int i=0; i<varL.size(); i++)
 		res += CalcCompEnergy(varL[i]);
 	return res;
 }
@@ -871,7 +871,7 @@ void MeanFieldInf::PrintMu() const {
 }
 
 void MeanFieldInf::PrintGamma() const {
-	map<int,ContFunction<matrix> >::const_iterator it = 
+	map<int,ContFunction<matrix> >::const_iterator it =
 		gammas.begin();
 	for(; it!=gammas.end(); ++it) {
 		cout << "var: " << it->first << endl;
@@ -881,7 +881,7 @@ void MeanFieldInf::PrintGamma() const {
 }
 
 void MeanFieldInf::PrintHidden() const {
-	map<int,vector<double_pair> >::const_iterator it = 
+	map<int,vector<double_pair> >::const_iterator it =
 		hiddenIntervals.begin();
 	for(; it!=hiddenIntervals.end(); ++it) {
 		cout << "var: " << it->first << endl;
@@ -902,7 +902,7 @@ double MeanFieldInf::CalcQuery(QueryCalculator &calc) {
 pair<int,int> MeanFieldInf::GetTrans(int varid, double t) const {
 	int from = tr->Value(varid,t-1e-11);
 	int to = tr->Value(varid,t+1e-11);
-	return make_pair<int,int>(from,to);
+	return std::make_pair(from,to);
 }
 
 map<double,int> MeanFieldInf::GetChildTransTimes(int varid,
@@ -913,19 +913,19 @@ map<double,int> MeanFieldInf::GetChildTransTimes(int varid,
 
 	map<double,int> ret;
 	for(unsigned int i=0; i<children.size(); i++) {
-		vector<double> transTimes = 
+		vector<double> transTimes =
 			GetObservedTransTimes(children[i],start,end);
 		for(unsigned int j=0; j<transTimes.size(); j++) {
-			ret.insert(make_pair<double,int>(
+                  ret.insert(std::make_pair(
 				transTimes[j],children[i]));
 		}
 	}
 	return ret;
 }
 
-vector<double> MeanFieldInf::GetObservedTransTimes(int varid, 
+vector<double> MeanFieldInf::GetObservedTransTimes(int varid,
 					double start, double end) const {
-	const Context &nodeCon  = 
+	const Context &nodeCon  =
 		dynamic_cast<const CTBNDyn *>(
 				p->GetDynamics())->
 				NodeByVar(varid)->Domain();
@@ -946,7 +946,7 @@ vector<double> MeanFieldInf::GetObservedTransTimes(int varid,
 
 void MeanFieldInf::CalcMuStart(int varid, const vectr &rho0, vectr &mu0) {
 	const BN *bn = dynamic_cast<const BN *>(p->GetStartDist());
-	const RV *node = bn->NodeByVar(varid); 
+	const RV *node = bn->NodeByVar(varid);
 	const Context &v = bn->NodeByVar(varid)->Domain();
 
 	vector<int> varL = bn->GetChildrenByVar(varid);
@@ -991,13 +991,13 @@ double MeanFieldInf::GetProb(const Instantiation &x, double t,
 }
 
 void MeanFieldInf::AddVar(int varid) {
-	mus.insert(make_pair<int,ContFunction<vectr> >(
+  mus.insert(std::make_pair(
 			varid, ContFunction<vectr>()));
 
-	gammas.insert(make_pair<int,ContFunction<matrix> >(
+  gammas.insert(std::make_pair(
 			varid, ContFunction<matrix>()));
 
-	hiddenIntervals.insert(make_pair<int,vector<double_pair> >(
+  hiddenIntervals.insert(std::make_pair(
 			varid, vector<double_pair>()));
 }
 
@@ -1014,7 +1014,7 @@ void MeanFieldInf::AddGammaVal(int varid, double t, const matrix &vals) {
 }
 
 void MeanFieldInf::AddHiddenInterval(int varid, double start, double end) {
-	map<int,vector<double_pair> >::iterator it = 
+	map<int,vector<double_pair> >::iterator it =
 		hiddenIntervals.find(varid);
 	if(it == hiddenIntervals.end()) return;
 	it->second.push_back(double_pair(start,end));
