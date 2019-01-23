@@ -1,3 +1,13 @@
+This is a copy of CTBN-RLE version 1.1.1 with fixes to allow it to build on a modern Debian or Ubuntu system.
+
+To build, just run
+
+    ./build.sh
+
+The initial commit is from the zip file found at: http://rlair.cs.ucr.edu/ctbnrle/v1.1.1/
+
+Original README continues below:
+
 ---------------------------------------------------------------------------
 |Continuous Time Bayesian Network Reasoning and Learning Engine           |
 |Copyright (C) 2009 The Regents of the University of California           |
