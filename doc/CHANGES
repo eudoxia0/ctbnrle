@@ -1,0 +1,42 @@
+Log of changes
+
+Version 1.1.1
+-------------
+Fixed compilation errors
+
+Version 1.1.0
+-------------
+Markov decision processes added (Kan & Shelton 2008) [ctmdp.h]
+Mean field inference added (Cohn, El-Hay, Friedman, & Kupferman 2009)
+		[meanfieldinf.h]
+Factored uniformization for filtering added (Celikkaya & Shelton 2011)
+		[uniformizedfactoredinf.h]
+Auxilliary Gibbs sampling added (Rao & Teh 2011) [gibbsauxsampler.h]
+Multi-threading for EM added
+
+many speed improvements
+
+unit testing improved [tst/]
+new demo "main" programs added [demo/]
+
+file format changed to XML-ish format [hdr/serial/]
+	(with old methods still there for conversion)
+matrix switched to Eigen package (with option to return to old matrix)
+
+glpk now included
+
+initial cmake functionality
+minor bug fixes
+
+
+Version 1.0.2
+-------------
+a few minor changes to make more compiler-compliant
+
+Version 1.0.1
+-------------
+ctbn namespace added
+updating demos and tests
+added Trajectory::AddPointEvidence
+minor other organizational changes
+

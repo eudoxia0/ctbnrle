@@ -1,0 +1,52 @@
+digraph g {
+ordering=out;
+graph [ 
+rankdir = "LR"
+];
+node [
+fontsize = "16"
+shape = "eclipse"];
+edge [
+];
+"node0"[
+label = "0"
+shape = "record"
+];
+"node1"[
+label = "1"
+shape = "record"
+];
+"node2"[
+label = "2"
+shape = "record"
+];
+"node3"[
+label = "3"
+shape = "record"
+];
+"node4"[
+label = "4"
+shape = "record"
+];
+"node5"[
+label = "5"
+shape = "record"
+];
+"node6"[
+label = "6"
+shape = "record"
+];
+"node7"[
+label = "7"
+shape = "record"
+];
+"node0" -> "node2" [ dir=back, id = 0];
+"node1" -> "node0" [ dir=back, id = 1];
+"node2" -> "node1" [ dir=back, id = 2];
+"node4" -> "node1" [ dir=back, id = 4];
+"node4" -> "node3" [ dir=back, id = 5];
+"node6" -> "node4" [ dir=back, id = 7];
+"node6" -> "node5" [ dir=back, id = 8];
+"node7" -> "node4" [ dir=back, id = 9];
+overlap=false
+}

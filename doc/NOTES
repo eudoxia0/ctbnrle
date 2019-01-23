@@ -1,0 +1,11 @@
+Notes:
+1.  The code will probably move to C++11 standards on the next release.
+	If this will pose a problem for you, please let us know.
+2.  We hope to add BP on the next release
+3.  We would like to encorporate non-CTBN structured representations of
+	continuous-time processes.  If you have one and want to contribute,
+	please let us know.
+4.  There are some additional speed increases for exact inference that can
+	be realized if the number of unobserved variables is always very small.
+	If this would be useful to you, please let us know.
+

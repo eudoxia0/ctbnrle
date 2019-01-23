@@ -1,0 +1,71 @@
+<Trajectory>
+	<double name="ts" value="0" \>
+	<double name="te" value="3" \>
+	<map name="traj">
+		<pair>
+			<int name="key" value="0" \>
+			<map name="value">
+				<pair.double.int key="0" value="0" \>
+				<pair.double.int key="0.563505" value="1" \>
+			<\map>
+		<\pair>
+		<pair>
+			<int name="key" value="1" \>
+			<map name="value">
+				<pair.double.int key="0" value="0" \>
+				<pair.double.int key="0.837845" value="1" \>
+				<pair.double.int key="1.50088" value="0" \>
+				<pair.double.int key="1.67087" value="1" \>
+				<pair.double.int key="2.08898" value="0" \>
+				<pair.double.int key="2.21837" value="1" \>
+				<pair.double.int key="2.23882" value="0" \>
+				<pair.double.int key="2.34252" value="1" \>
+				<pair.double.int key="2.67114" value="0" \>
+				<pair.double.int key="2.85411" value="1" \>
+			<\map>
+		<\pair>
+		<pair>
+			<int name="key" value="2" \>
+			<map name="value">
+				<pair.double.int key="0" value="0" \>
+				<pair.double.int key="0.129662" value="1" \>
+			<\map>
+		<\pair>
+		<pair>
+			<int name="key" value="3" \>
+			<map name="value">
+				<pair.double.int key="0" value="1" \>
+			<\map>
+		<\pair>
+		<pair>
+			<int name="key" value="4" \>
+			<map name="value">
+				<pair.double.int key="0" value="0" \>
+				<pair.double.int key="0.811089" value="1" \>
+				<pair.double.int key="1.16406" value="2" \>
+			<\map>
+		<\pair>
+		<pair>
+			<int name="key" value="5" \>
+			<map name="value">
+				<pair.double.int key="0" value="1" \>
+				<pair.double.int key="0.937131" value="2" \>
+				<pair.double.int key="1.80199" value="1" \>
+			<\map>
+		<\pair>
+		<pair>
+			<int name="key" value="6" \>
+			<map name="value">
+				<pair.double.int key="0" value="1" \>
+				<pair.double.int key="1.37333" value="0" \>
+			<\map>
+		<\pair>
+		<pair>
+			<int name="key" value="7" \>
+			<map name="value">
+				<pair.double.int key="0" value="0" \>
+				<pair.double.int key="2.25742" value="1" \>
+			<\map>
+		<\pair>
+	<\map>
+<\Trajectory>

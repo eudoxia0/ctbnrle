@@ -1,0 +1,271 @@
+This file serves as an introduction to the code.  The first section is
+on how to use the code as a black box.  The second is a brief introduction
+to the logic behind the class organization.
+
+Throughout this document, it is assumed that the reader is familiar with
+continuous time Bayesian networks (CTBNs) in at least their formulation and
+basic theory.  See the file ctbn_papers.txt for a list of reading on the
+subject.
+
+HOW TO USE:
+-----------
+
+In general, the header files (in .hdr) explain what the class' methods do.
+This is a general primer for orientation.
+
+Context & Instantiation (in context.h)
+	A context is a collection of variables.  Each is identified by a 
+	number (variable 0, 1, etc.) but need not be consecutively ordered.
+	Each variable has a size (number of values it can take on).
+
+	An instantiation is a context plus an assignment to each of
+	the variables.	However, the assignment -1 indicates that the
+	value is unknown.  If the assignment is complete (no -1 values),
+	an instantiation also has an index which maps the assignment
+	to a unique integer.  The indexes for a particular context are
+	consecutive, starting at 0.  Inc() moves an instantiation to the
+	next consecutive index's assignment.
+
+	context.h also contains marcos for iterating over all assignments
+	(instantiations) to a particular set of variables -- see the end of
+	the file
+
+Trajectory (in trajectory.h)
+	This class stores temporal data.  It has a set of variables,
+	a beginning and ending time, and a set of events.  Each event
+	is the assignment of a value to one variable.  The value -1 is
+	used to indicate that the variable is unobserved.  Therefore
+	a "transition" of a variable *to* -1 means that it has gone from being
+	observed to being unobserved.  Conversely a "transition" of a variable
+	*from* -1 (to a non-negative value) means that the variable has
+	started to be observed at this instant.
+
+	Notable is the inner class Index (and RIndex) which allow for the
+	iteration through a trajectories events (or a subset of them).  They
+	are like iterators from STL (but not exactly the same, hence the
+	different name).
+
+Process (in process.h)
+	An abstract class, all processes are subclasses of it
+
+Dynamics (in dynamics.h)
+	An abstract class, all dynamics are subclasses of it.  A "dynamics"
+	is the part of a Markov process describing how it changes (as compared
+	to its starting distribution at time 0).
+
+RV (in rv.h)
+	An abstract class, all random variables are subclasses of it.  An RV
+	is the part of a Markov process describing how it starts (at time 0).
+	It can also be used for other purposes.  We make a distinction 
+	between random variables and processes.
+
+Markov (in markov.h)
+	Markov is a dynamic process with a starting distribution and a
+	dynamics.
+
+CTBNDyn (in ctbndyn.h)
+	This is a "factored" dynamics class, the essence of a CTBN
+
+BN (in bn.h)
+	This is a "factored" RV, the starting distribution for a CTBN
+
+CTBN (in ctbn.h)
+	A really small class purely for notational convenience.  It is
+	a Markov class with CTBNDyn as the dynamics and BN as the starting
+	distribution
+
+
+-- How to make a CTBN:
+	The demo/ directory has a number of examples (makedrug.cc and
+makechain.cc for example) on how to construct a CTBN by hand.  They
+involve creating MarkovDyn and MultiRV for each variable, describing
+the conditional dynamics and starting distribution for each (conditioned on
+other variables -- its parents) and then adding them all into a CTBNDyn
+variable and a BN variable and then placing the two into a CTBN.
+
+-- How to sample from a CTBN:
+	The method Sample will generate a sample trajectory, provided the
+trajectory input already has a starting and ending time set.
+
+-- How to learn the parameters of a CTBN from data:
+	The demo/ directory has an example learnparams.cc of how to learn
+parameters.  It takes a CTBN as input, samples from it, and then learns
+the parameters back again (hopefully similar to the original ones).  For
+more general case, you would replace the sampled trajectories with real
+data.
+
+	The essential method is to feed the data into the SuffStats method
+for the CTBN, thus generating the sufficient statistics necessary for
+learning parameters (the CTBN need only have the correct structure, the
+parameters are ignored).  Then, these sufficient statistics are fed into
+the CTBN's Maximize method which calculates the maximum likelihood
+parameters.
+
+	If you have incomplete data, you will want to run the EM function in
+em.h.  It requires the data, the process to optimize, and an inference
+method (for the E-step).  inference.h has the abstract superclass for
+inference.  exactmarkovinf.h has ExactMarkovInf which will perform exact
+inference.  samplinginf.h has SamplingInf which performs sampling-based
+inference.  It takes in a Sampler (see sampler.h) as the method for
+generating samples from the posterior distribution.  GibbsSampler
+(gibbssampler.h), ImportanceSampler (importancesampler.h), and
+GibbsAuxSampler (gibbsauxsampler.h) are all possible sampling methods.
+
+	If you also do not know the structure, you will want to run the SEM
+function in em.h.  It requires the data, the process to optimize, and an 
+inference method (just as EM).  
+
+-- How to perform inference for a CTBN:
+	exactquery (and others) in the demo/ directory demonstrate the basics
+of inference.  They read in a trajectory (a partial trajectory with missing
+values for some variables for some periods of time) and query the expected
+amount of time a variable spent in a particular state and the expected number
+of transitions from one state to another state.  Other queries are possible
+(like the distribution of a variable at a point -- either smoothed or filtered
+-- see inference.h).
+
+
+CODING NOTES:
+-------------
+
+Unless stated in the header file, all pointers passed into a function or
+method are still "owned" by the calling function afterward.  All returned
+pointers are owned by the calling function.  A few constructors ask for
+pointers and do not own them, but assume that the pointers are valid for
+the lifetime of the object.  This is noted in the comments in the header
+file.
+
+Comments describing the purpose and usage of each method are described
+once at the most base class's header file.
+
+STL is assumed, but no other external libraries are required.
+As of version 1.1, Eigen is used for matrices, but this can be reverted to
+the old matrix code by uncommenting the "NOUSEEIGEN" definition in matrix.h
+GLPK is used for linear programming.  Both Eigen and GLPK are supplied.
+
+Almost all classes implement Clone() as a virtual copy constructor.
+
+The code is contained in the ctbn namespace, with the exception of a
+few items that cannot be placed there (iostream related items that must
+be in std, for instance).
+
+
+CLASS ORGANIZATION:
+-------------------
+
+The basic organization of the classes is reasonably straight-forward.  
+There are a few small self-contained modules:
+
+	random.h/.cc have code for drawing random numbers,
+	matrix.h/.cc hold matrix operations,
+	define.h holds differences between compilation environments, 
+	streamextra.h/.cc contains stream operations (it has extensive comments)
+	extramath.h has random math functions (like log-gamma)
+	serial/serial.h has a template meta-programming solution to
+		automatic serialization of objects in an XML-like format
+
+	rk.h/.cc contain the Runga-Kutta methods for computing the alpha and
+		beta (forward and backward) passes for inference, for
+		computing expected sufficient statistics of a flat Markov
+		process, and for solving the ODEs in mean field inference
+
+	clique.h/.cc hold the code for building clique trees (not needed by
+		anything currently)
+
+	graphic.h/.cc hold the code for drawing trajectories or CTBNs
+		graphically
+
+	samplequeue.h/.cc is an internal class for sampling
+
+	searchqueue.h/.cc is an internal class for structure search
+
+	contfunction.h/.tcc is a class for approximating continuous functions
+		with linear interpolation
+	
+In general, the class Process holds any process.  It has a subclass
+Markov that holds any Markov process.  Markov consists of two variables:
+an initial distribution and a "dynamics."  The former is of type RV (or rather
+a subclass of RV) and the latter describes the evolution of the system (and
+is a Dynamics or subclass).  All of these classes also hold a Context (see
+above) describing the set of variables in the event space (and the variables'
+sizes) as well as a second Context describing the set of variable upon which
+the variable or process is conditioned.  If the conditional context is not
+empty, then any requests (for sampling, probability, etc) to the class must
+specify all values for these conditioning variables.
+
+Working from the "bottom up," classes ending with "simple" represent random
+variables or processes with no conditioning and where the event space is
+"flat" (just the first n non-negative integers).  They are used in the lower
+levels of all of the algorithms to describe things when the event space is
+known or implied and need not be "carried" by all variables.
+
+Classes ending with "comp" make a composition of "simple" classes to
+construct a full RV, Process, or Dynamics.  That is, they have conditioning
+contexts and event contexts and translate their method calls to those of
+"simple" classes that perform the computations.  They are usually templates
+(where the template argument is the simple class out of which to construct
+a full version).
+
+All processes, dynamics, and random variables have their own sufficient
+statistics class.  Each sufficient statistics class is a subclass of the
+(empty) class SS.
+
+With these distinctions understood, the rest of the organization is
+pretty easily read from the code itself.  Here is a (partial) class
+inheritance diagram:
+
+SS -+- MarkovSS
+    +- CTBNDynSS
+    +- DynCompSS
+    +- MarkovSimpleSS
+    +- MultiSimpleSS
+    +- BNSS
+    \- BNCompSS
+
+Process --- Markov
+
+Sampler -+- GibbsSampler
+         \- ImpBase -+- ImportanceSampler
+                     \- NodeSampler
+
+VarSample --- ExpMethod --- LookAheadMethod
+
+DynSimple --- MarkovSimple --- MarkovSimpleToggle
+
+Dynamics -+- CTBNDyn
+          \- DynComp --- MarkovDyn
+
+RV -+- BN
+    \- RVComp --- MultiRV
+
+Inference -+- ExactMarkovInf
+           |- SamplingInfAbs -+- SamplingInf
+           |                  \- SamplingPreInf
+           +- MeanFieldInf
+           \- BFInf -+- ExactMarkovInf
+                     \- UniformizedFactoredInf
+
+QueryCalculator -+- QueryTransition
+                 |- QueryTime
+                 \- QueryProb
+
+RVSimple -+- MultiLogSimple
+          +- MultiSimple
+          \- MultiZSimple --- SparseMultiZSimple
+
+RVCondSimple -+- RVCondSimpleComp
+              +- SparseCondTransQ2
+              +- CondTransQ2
+              +- SparseCondTransQ
+              +- CondTransQ
+   
+StructureSearch -+- BruteStructureSearch
+                 \- GraphEditSearch
+
+LinearProgram --- GLPKSolver
+
+Other Questions
+===============
+If questions arise while reading the code, please contact the authors at
+cshelton@cs.ucr.edu.  
+

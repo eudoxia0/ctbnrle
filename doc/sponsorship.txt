@@ -1,0 +1,9 @@
+This code base was made possible by two grants:
+
+Continuous Time Structured Stochastic Processes
+AFOSR Award No FA9550-07-1-0076
+
+Reasoning in Dynamic Real Time Systems
+DARPA Award No HR0011-09-1-0030
+
+We thank them for their generous support of this project.

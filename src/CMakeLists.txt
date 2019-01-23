@@ -1,0 +1,72 @@
+cmake_minimum_required(VERSION 2.6.4 FATAL_ERROR)
+project(ctbn)
+
+include_directories(${CTBN_INCLUDE_DIRS})
+
+add_library(ctbn
+        bn.cc
+        brutestructuresearch.cc
+        clique.cc
+        context.cc
+        contfunction.cc
+        ctbn.cc
+        ctbndyn.cc
+        ctmdp.cc
+        defines.cc
+        dynamics.cc
+        dyncomp.cc
+        dynsimple.cc
+        em.cc
+        exactmarkovinf.cc
+        expmcache.cc
+        expmethod.cc
+        expsuffstatsquery.cc
+        extramath.cc
+        factoredmatrix.cc
+        factoredvector.cc
+        famscore.cc
+        fbinf.cc
+        gibbsauxsampler.cc
+        gibbsbase.cc
+        gibbssampler.cc
+        grapheditsearch.cc
+        graphic.cc
+        impbase.cc
+        importancesampler.cc
+        inference.cc
+        linearprogram.cc
+        markov.cc
+        markovdyn.cc
+        markovsimple.cc
+        matrix.cc
+        meanfieldinf.cc
+        multirv.cc
+        multisimple.cc
+        nodesampler.cc
+        nonexpsuffstatsquery.cc
+        params.cc
+        process.cc
+        random.cc
+        rk.cc
+        rv.cc
+        rvcomp.cc
+        rvsimple.cc
+        samplequeue.cc
+        sampler.cc
+        samplinginf.cc
+        searchqueue.cc
+        serial.cc
+        ss.cc
+        streamextra.cc
+        streamserial.cc
+        structure.cc
+        structuresearch.cc
+        suffstatsquery.cc
+        trajectory.cc
+        trajsimple.cc
+        uniformizedfactoredinf.cc
+        utils.cc
+        varsample.cc
+)
+
+set(CTBN_LIBRARIES ${CMAKE_CURRENT_BINARY_DIR}/libctbn.a ${GLPK_LIBRARIES} CACHE INTERNAL "Don't change this unless you know what you're doing.")

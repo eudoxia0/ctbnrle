@@ -1,0 +1,356 @@
+<Markov>
+	<BN name="p0">
+		<RV name="RV">
+			<Context name="cv">
+				<map name="card">
+				<\map>
+			<\Context>
+			<Context name="v">
+				<map name="card">
+					<pair.int.int key="0" value="2" \>
+					<pair.int.int key="1" value="2" \>
+					<pair.int.int key="2" value="3" \>
+				<\map>
+			<\Context>
+		<\RV>
+		<vector nelem=3 name="nodes">
+			<MultiRV>
+				<RVComp name="RVComp">
+					<RV name="RV">
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="0" value="2" \>
+							<\map>
+						<\Context>
+					<\RV>
+					<RVCondSimpleComp.MultiZSimple name="impl">
+						<vector nelem=1 name="impl">
+							<MultiZSimple>
+								<double name="logz" value="0" \>
+								<vectr m="2" name="theta">
+									0.5 0.5
+								<\vectr>
+							<\MultiZSimple>
+						<\vector>
+					<\RVCondSimpleComp.MultiZSimple>
+				<\RVComp>
+			<\MultiRV>
+			<MultiRV>
+				<RVComp name="RVComp">
+					<RV name="RV">
+						<Context name="cv">
+							<map name="card">
+								<pair.int.int key="0" value="2" \>
+							<\map>
+						<\Context>
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="1" value="2" \>
+							<\map>
+						<\Context>
+					<\RV>
+					<RVCondSimpleComp.MultiZSimple name="impl">
+						<vector nelem=2 name="impl">
+							<MultiZSimple>
+								<double name="logz" value="0" \>
+								<vectr m="2" name="theta">
+									0.8 0.2
+								<\vectr>
+							<\MultiZSimple>
+							<MultiZSimple>
+								<double name="logz" value="0" \>
+								<vectr m="2" name="theta">
+									0.3 0.7
+								<\vectr>
+							<\MultiZSimple>
+						<\vector>
+					<\RVCondSimpleComp.MultiZSimple>
+				<\RVComp>
+			<\MultiRV>
+			<MultiRV>
+				<RVComp name="RVComp">
+					<RV name="RV">
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="2" value="3" \>
+							<\map>
+						<\Context>
+					<\RV>
+					<RVCondSimpleComp.MultiZSimple name="impl">
+						<vector nelem=1 name="impl">
+							<MultiZSimple>
+								<double name="logz" value="0" \>
+								<vectr m="3" name="theta">
+									0.2 0.3 0.5
+								<\vectr>
+							<\MultiZSimple>
+						<\vector>
+					<\RVCondSimpleComp.MultiZSimple>
+				<\RVComp>
+			<\MultiRV>
+		<\vector>
+	<\BN>
+	<CTBNDyn name="d">
+		<Dynamics name="Dynamics">
+			<Context name="v">
+				<map name="card">
+					<pair.int.int key="0" value="2" \>
+					<pair.int.int key="1" value="2" \>
+					<pair.int.int key="2" value="3" \>
+				<\map>
+			<\Context>
+			<Context name="cv">
+				<map name="card">
+				<\map>
+			<\Context>
+		<\Dynamics>
+		<vector nelem=3 name="nodes">
+			<MarkovDyn>
+				<DynComp name="DynComp">
+					<Dynamics name="Dynamics">
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="0" value="2" \>
+							<\map>
+						<\Context>
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+					<\Dynamics>
+					<vector nelem=1 name="impl">
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-1 1
+								2 -2
+							<\matrix>
+						<\MarkovSimple>
+					<\vector>
+				<\DynComp>
+			<\MarkovDyn>
+			<MarkovDyn>
+				<DynComp name="DynComp">
+					<Dynamics name="Dynamics">
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="1" value="2" \>
+							<\map>
+						<\Context>
+						<Context name="cv">
+							<map name="card">
+								<pair.int.int key="0" value="2" \>
+							<\map>
+						<\Context>
+					<\Dynamics>
+					<vector nelem=2 name="impl">
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-3 3
+								4 -4
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-5 5
+								6 -6
+							<\matrix>
+						<\MarkovSimple>
+					<\vector>
+				<\DynComp>
+			<\MarkovDyn>
+			<MarkovDyn>
+				<DynComp name="DynComp">
+					<Dynamics name="Dynamics">
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="2" value="3" \>
+							<\map>
+						<\Context>
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+					<\Dynamics>
+					<vector nelem=1 name="impl">
+						<MarkovSimple>
+							<matrix m="3" n="3" name="Q">
+								-6 3 3
+								6 -12 6
+								9 9 -18
+							<\matrix>
+						<\MarkovSimple>
+					<\vector>
+				<\DynComp>
+			<\MarkovDyn>
+		<\vector>
+	<\CTBNDyn>
+<\Markov>
+
+<Trajectory>
+	<double name="ts" value="0" \>
+	<double name="te" value="20" \>
+	<map name="traj">
+		<pair>
+			<int name="key" value="0" \>
+			<map name="value">
+				<pair.double.int key="0" value="1" \>
+				<pair.double.int key="0.0320831" value="0" \>
+				<pair.double.int key="0.394608" value="1" \>
+				<pair.double.int key="0.611014" value="-1" \>
+				<pair.double.int key="7.45722" value="0" \>
+				<pair.double.int key="7.63577" value="1" \>
+				<pair.double.int key="8.58602" value="-1" \>
+				<pair.double.int key="12.586" value="1" \>
+				<pair.double.int key="12.7844" value="0" \>
+				<pair.double.int key="13.0684" value="1" \>
+				<pair.double.int key="13.2585" value="0" \>
+				<pair.double.int key="17.2237" value="1" \>
+				<pair.double.int key="17.9614" value="0" \>
+				<pair.double.int key="18.3728" value="1" \>
+				<pair.double.int key="18.653" value="0" \>
+				<pair.double.int key="19.042" value="1" \>
+				<pair.double.int key="19.1701" value="0" \>
+				<pair.double.int key="19.3598" value="1" \>
+				<pair.double.int key="19.5606" value="0" \>
+			<\map>
+		<\pair>
+		<pair>
+			<int name="key" value="1" \>
+			<map name="value">
+				<pair.double.int key="0" value="0" \>
+				<pair.double.int key="0.0513034" value="1" \>
+				<pair.double.int key="0.13279" value="0" \>
+				<pair.double.int key="0.548856" value="1" \>
+				<pair.double.int key="0.702979" value="0" \>
+				<pair.double.int key="0.725757" value="1" \>
+				<pair.double.int key="0.759608" value="0" \>
+				<pair.double.int key="0.833791" value="1" \>
+				<pair.double.int key="0.907744" value="0" \>
+				<pair.double.int key="1.44627" value="1" \>
+				<pair.double.int key="1.52826" value="0" \>
+				<pair.double.int key="1.78431" value="1" \>
+				<pair.double.int key="2.01633" value="0" \>
+				<pair.double.int key="2.46358" value="-1" \>
+				<pair.double.int key="12.7253" value="0" \>
+				<pair.double.int key="12.8404" value="1" \>
+				<pair.double.int key="12.9443" value="0" \>
+				<pair.double.int key="12.9553" value="1" \>
+				<pair.double.int key="13.0747" value="0" \>
+				<pair.double.int key="13.3543" value="1" \>
+				<pair.double.int key="13.4626" value="0" \>
+				<pair.double.int key="13.6335" value="1" \>
+				<pair.double.int key="13.6675" value="0" \>
+				<pair.double.int key="14.2391" value="1" \>
+				<pair.double.int key="14.6853" value="0" \>
+				<pair.double.int key="14.8766" value="1" \>
+				<pair.double.int key="15.3349" value="-1" \>
+				<pair.double.int key="19.3349" value="0" \>
+				<pair.double.int key="19.3558" value="1" \>
+				<pair.double.int key="19.391" value="0" \>
+			<\map>
+		<\pair>
+		<pair>
+			<int name="key" value="2" \>
+			<map name="value">
+				<pair.double.int key="0" value="2" \>
+				<pair.double.int key="0.0714623" value="0" \>
+				<pair.double.int key="0.122262" value="1" \>
+				<pair.double.int key="0.168322" value="2" \>
+				<pair.double.int key="0.172111" value="1" \>
+				<pair.double.int key="0.205095" value="2" \>
+				<pair.double.int key="0.249471" value="1" \>
+				<pair.double.int key="0.313326" value="0" \>
+				<pair.double.int key="0.583314" value="2" \>
+				<pair.double.int key="0.597932" value="0" \>
+				<pair.double.int key="0.985057" value="2" \>
+				<pair.double.int key="1.10461" value="1" \>
+				<pair.double.int key="1.11883" value="-1" \>
+				<pair.double.int key="6.4351" value="1" \>
+				<pair.double.int key="6.53882" value="0" \>
+				<pair.double.int key="6.61275" value="2" \>
+				<pair.double.int key="6.67135" value="0" \>
+				<pair.double.int key="6.9254" value="1" \>
+				<pair.double.int key="6.97488" value="0" \>
+				<pair.double.int key="6.98924" value="1" \>
+				<pair.double.int key="7.18793" value="2" \>
+				<pair.double.int key="7.19642" value="0" \>
+				<pair.double.int key="7.24908" value="2" \>
+				<pair.double.int key="7.26312" value="0" \>
+				<pair.double.int key="7.39025" value="2" \>
+				<pair.double.int key="7.44848" value="0" \>
+				<pair.double.int key="7.52617" value="1" \>
+				<pair.double.int key="7.58688" value="2" \>
+				<pair.double.int key="7.59499" value="0" \>
+				<pair.double.int key="7.69119" value="1" \>
+				<pair.double.int key="7.75203" value="0" \>
+				<pair.double.int key="7.98232" value="1" \>
+				<pair.double.int key="8.12641" value="0" \>
+				<pair.double.int key="8.15246" value="1" \>
+				<pair.double.int key="8.17836" value="2" \>
+				<pair.double.int key="8.24676" value="0" \>
+				<pair.double.int key="8.27328" value="1" \>
+				<pair.double.int key="8.30166" value="0" \>
+				<pair.double.int key="8.52073" value="1" \>
+				<pair.double.int key="8.68335" value="2" \>
+				<pair.double.int key="8.71296" value="1" \>
+				<pair.double.int key="8.82253" value="0" \>
+				<pair.double.int key="8.97114" value="1" \>
+				<pair.double.int key="8.99736" value="0" \>
+				<pair.double.int key="9.07019" value="1" \>
+				<pair.double.int key="9.15283" value="0" \>
+				<pair.double.int key="9.16158" value="2" \>
+				<pair.double.int key="9.1723" value="0" \>
+				<pair.double.int key="9.221" value="2" \>
+				<pair.double.int key="9.26762" value="0" \>
+				<pair.double.int key="9.35012" value="1" \>
+				<pair.double.int key="9.48129" value="-1" \>
+				<pair.double.int key="13.4813" value="2" \>
+				<pair.double.int key="13.5281" value="1" \>
+				<pair.double.int key="13.5899" value="2" \>
+				<pair.double.int key="13.6071" value="0" \>
+				<pair.double.int key="13.6147" value="1" \>
+				<pair.double.int key="13.6733" value="0" \>
+				<pair.double.int key="13.694" value="1" \>
+				<pair.double.int key="13.9595" value="0" \>
+				<pair.double.int key="13.9606" value="2" \>
+				<pair.double.int key="14.019" value="1" \>
+				<pair.double.int key="14.0921" value="2" \>
+				<pair.double.int key="14.1187" value="1" \>
+				<pair.double.int key="14.1596" value="2" \>
+				<pair.double.int key="14.2047" value="1" \>
+				<pair.double.int key="14.4786" value="2" \>
+				<pair.double.int key="14.4975" value="0" \>
+				<pair.double.int key="14.5239" value="1" \>
+				<pair.double.int key="14.5502" value="2" \>
+				<pair.double.int key="14.5929" value="1" \>
+				<pair.double.int key="14.6118" value="0" \>
+				<pair.double.int key="14.634" value="1" \>
+				<pair.double.int key="14.7185" value="0" \>
+				<pair.double.int key="14.7655" value="-1" \>
+				<pair.double.int key="18.7655" value="1" \>
+				<pair.double.int key="18.8628" value="0" \>
+				<pair.double.int key="19.0623" value="2" \>
+				<pair.double.int key="19.0641" value="1" \>
+				<pair.double.int key="19.0657" value="0" \>
+				<pair.double.int key="19.2193" value="1" \>
+				<pair.double.int key="19.4893" value="2" \>
+				<pair.double.int key="19.5028" value="0" \>
+				<pair.double.int key="19.5143" value="1" \>
+				<pair.double.int key="19.5991" value="0" \>
+				<pair.double.int key="19.7276" value="2" \>
+				<pair.double.int key="19.7553" value="1" \>
+				<pair.double.int key="19.7666" value="2" \>
+			<\map>
+		<\pair>
+	<\map>
+<\Trajectory>
+
+8.1538 42.5293

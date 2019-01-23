@@ -1,0 +1,563 @@
+<Markov>
+	<BN name="p0">
+		<RV name="RV">
+			<Context name="cv">
+				<map name="card">
+				<\map>
+			<\Context>
+			<Context name="v">
+				<map name="card">
+					<pair.int.int key="0" value="2" \>
+					<pair.int.int key="1" value="3" \>
+					<pair.int.int key="2" value="2" \>
+					<pair.int.int key="3" value="2" \>
+					<pair.int.int key="4" value="3" \>
+					<pair.int.int key="5" value="3" \>
+					<pair.int.int key="6" value="2" \>
+					<pair.int.int key="7" value="2" \>
+				<\map>
+			<\Context>
+		<\RV>
+		<vector nelem=8 name="nodes">
+			<MultiRV>
+				<RVComp name="RVComp">
+					<RV name="RV">
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="0" value="2" \>
+							<\map>
+						<\Context>
+					<\RV>
+					<RVCondSimpleComp.MultiZSimple name="impl">
+						<vector nelem=1 name="impl">
+							<MultiZSimple>
+								<double name="logz" value="0" \>
+								<vectr m="2" name="theta">
+									0.1 0.9
+								<\vectr>
+							<\MultiZSimple>
+						<\vector>
+					<\RVCondSimpleComp.MultiZSimple>
+				<\RVComp>
+			<\MultiRV>
+			<MultiRV>
+				<RVComp name="RVComp">
+					<RV name="RV">
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="1" value="3" \>
+							<\map>
+						<\Context>
+					<\RV>
+					<RVCondSimpleComp.MultiZSimple name="impl">
+						<vector nelem=1 name="impl">
+							<MultiZSimple>
+								<double name="logz" value="0" \>
+								<vectr m="3" name="theta">
+									0.7 0.2 0.1
+								<\vectr>
+							<\MultiZSimple>
+						<\vector>
+					<\RVCondSimpleComp.MultiZSimple>
+				<\RVComp>
+			<\MultiRV>
+			<MultiRV>
+				<RVComp name="RVComp">
+					<RV name="RV">
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="2" value="2" \>
+							<\map>
+						<\Context>
+					<\RV>
+					<RVCondSimpleComp.MultiZSimple name="impl">
+						<vector nelem=1 name="impl">
+							<MultiZSimple>
+								<double name="logz" value="0" \>
+								<vectr m="2" name="theta">
+									0.6 0.4
+								<\vectr>
+							<\MultiZSimple>
+						<\vector>
+					<\RVCondSimpleComp.MultiZSimple>
+				<\RVComp>
+			<\MultiRV>
+			<MultiRV>
+				<RVComp name="RVComp">
+					<RV name="RV">
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="3" value="2" \>
+							<\map>
+						<\Context>
+					<\RV>
+					<RVCondSimpleComp.MultiZSimple name="impl">
+						<vector nelem=1 name="impl">
+							<MultiZSimple>
+								<double name="logz" value="0" \>
+								<vectr m="2" name="theta">
+									0.45 0.55
+								<\vectr>
+							<\MultiZSimple>
+						<\vector>
+					<\RVCondSimpleComp.MultiZSimple>
+				<\RVComp>
+			<\MultiRV>
+			<MultiRV>
+				<RVComp name="RVComp">
+					<RV name="RV">
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="4" value="3" \>
+							<\map>
+						<\Context>
+					<\RV>
+					<RVCondSimpleComp.MultiZSimple name="impl">
+						<vector nelem=1 name="impl">
+							<MultiZSimple>
+								<double name="logz" value="0" \>
+								<vectr m="3" name="theta">
+									0.7 0.2 0.1
+								<\vectr>
+							<\MultiZSimple>
+						<\vector>
+					<\RVCondSimpleComp.MultiZSimple>
+				<\RVComp>
+			<\MultiRV>
+			<MultiRV>
+				<RVComp name="RVComp">
+					<RV name="RV">
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="5" value="3" \>
+							<\map>
+						<\Context>
+					<\RV>
+					<RVCondSimpleComp.MultiZSimple name="impl">
+						<vector nelem=1 name="impl">
+							<MultiZSimple>
+								<double name="logz" value="0" \>
+								<vectr m="3" name="theta">
+									0.3 0.7 0
+								<\vectr>
+							<\MultiZSimple>
+						<\vector>
+					<\RVCondSimpleComp.MultiZSimple>
+				<\RVComp>
+			<\MultiRV>
+			<MultiRV>
+				<RVComp name="RVComp">
+					<RV name="RV">
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="6" value="2" \>
+							<\map>
+						<\Context>
+					<\RV>
+					<RVCondSimpleComp.MultiZSimple name="impl">
+						<vector nelem=1 name="impl">
+							<MultiZSimple>
+								<double name="logz" value="0" \>
+								<vectr m="2" name="theta">
+									0.1 0.9
+								<\vectr>
+							<\MultiZSimple>
+						<\vector>
+					<\RVCondSimpleComp.MultiZSimple>
+				<\RVComp>
+			<\MultiRV>
+			<MultiRV>
+				<RVComp name="RVComp">
+					<RV name="RV">
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="7" value="2" \>
+							<\map>
+						<\Context>
+					<\RV>
+					<RVCondSimpleComp.MultiZSimple name="impl">
+						<vector nelem=1 name="impl">
+							<MultiZSimple>
+								<double name="logz" value="0" \>
+								<vectr m="2" name="theta">
+									0.1 0.9
+								<\vectr>
+							<\MultiZSimple>
+						<\vector>
+					<\RVCondSimpleComp.MultiZSimple>
+				<\RVComp>
+			<\MultiRV>
+		<\vector>
+	<\BN>
+	<CTBNDyn name="d">
+		<Dynamics name="Dynamics">
+			<Context name="v">
+				<map name="card">
+					<pair.int.int key="0" value="2" \>
+					<pair.int.int key="1" value="3" \>
+					<pair.int.int key="2" value="2" \>
+					<pair.int.int key="3" value="2" \>
+					<pair.int.int key="4" value="3" \>
+					<pair.int.int key="5" value="3" \>
+					<pair.int.int key="6" value="2" \>
+					<pair.int.int key="7" value="2" \>
+				<\map>
+			<\Context>
+			<Context name="cv">
+				<map name="card">
+				<\map>
+			<\Context>
+		<\Dynamics>
+		<vector nelem=8 name="nodes">
+			<MarkovDyn>
+				<DynComp name="DynComp">
+					<Dynamics name="Dynamics">
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="0" value="2" \>
+							<\map>
+						<\Context>
+						<Context name="cv">
+							<map name="card">
+								<pair.int.int key="2" value="2" \>
+							<\map>
+						<\Context>
+					<\Dynamics>
+					<vector nelem=2 name="impl">
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-0.01 0.01
+								10 -10
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-2 2
+								1 -1
+							<\matrix>
+						<\MarkovSimple>
+					<\vector>
+				<\DynComp>
+			<\MarkovDyn>
+			<MarkovDyn>
+				<DynComp name="DynComp">
+					<Dynamics name="Dynamics">
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="1" value="3" \>
+							<\map>
+						<\Context>
+						<Context name="cv">
+							<map name="card">
+								<pair.int.int key="0" value="2" \>
+							<\map>
+						<\Context>
+					<\Dynamics>
+					<vector nelem=2 name="impl">
+						<MarkovSimple>
+							<matrix m="3" n="3" name="Q">
+								-0.02 0.01 0.01
+								0.3 -0.31 0.01
+								0.01 1 -1.01
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="3" n="3" name="Q">
+								-6.01 6 0.01
+								0.01 -3.01 3
+								0.01 0.01 -0.02
+							<\matrix>
+						<\MarkovSimple>
+					<\vector>
+				<\DynComp>
+			<\MarkovDyn>
+			<MarkovDyn>
+				<DynComp name="DynComp">
+					<Dynamics name="Dynamics">
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="2" value="2" \>
+							<\map>
+						<\Context>
+						<Context name="cv">
+							<map name="card">
+								<pair.int.int key="1" value="3" \>
+							<\map>
+						<\Context>
+					<\Dynamics>
+					<vector nelem=3 name="impl">
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-2 2
+								0.01 -0.01
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-0.01 0.01
+								0.01 -0.01
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-0.01 0.01
+								10 -10
+							<\matrix>
+						<\MarkovSimple>
+					<\vector>
+				<\DynComp>
+			<\MarkovDyn>
+			<MarkovDyn>
+				<DynComp name="DynComp">
+					<Dynamics name="Dynamics">
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="3" value="2" \>
+							<\map>
+						<\Context>
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+					<\Dynamics>
+					<vector nelem=1 name="impl">
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-0 0
+								0.5 -0.5
+							<\matrix>
+						<\MarkovSimple>
+					<\vector>
+				<\DynComp>
+			<\MarkovDyn>
+			<MarkovDyn>
+				<DynComp name="DynComp">
+					<Dynamics name="Dynamics">
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="4" value="3" \>
+							<\map>
+						<\Context>
+						<Context name="cv">
+							<map name="card">
+								<pair.int.int key="1" value="3" \>
+								<pair.int.int key="3" value="2" \>
+							<\map>
+						<\Context>
+					<\Dynamics>
+					<vector nelem=6 name="impl">
+						<MarkovSimple>
+							<matrix m="3" n="3" name="Q">
+								-0.02 0.01 0.01
+								0.25 -0.26 0.01
+								0.01 0.5 -0.51
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="3" n="3" name="Q">
+								-0.02 0.01 0.01
+								0.25 -0.26 0.01
+								0.01 0.5 -0.51
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="3" n="3" name="Q">
+								-0.02 0.01 0.01
+								0.25 -0.26 0.01
+								0.01 0.5 -0.51
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="3" n="3" name="Q">
+								-2.01 2 0.01
+								0.01 -1.01 1
+								0.01 0.01 -0.02
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="3" n="3" name="Q">
+								-1.01 1 0.01
+								0.01 -2.01 2
+								0.01 0.01 -0.02
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="3" n="3" name="Q">
+								-0.51 0.5 0.01
+								0.01 -4.01 4
+								0.01 0.01 -0.02
+							<\matrix>
+						<\MarkovSimple>
+					<\vector>
+				<\DynComp>
+			<\MarkovDyn>
+			<MarkovDyn>
+				<DynComp name="DynComp">
+					<Dynamics name="Dynamics">
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="5" value="3" \>
+							<\map>
+						<\Context>
+						<Context name="cv">
+							<map name="card">
+							<\map>
+						<\Context>
+					<\Dynamics>
+					<vector nelem=1 name="impl">
+						<MarkovSimple>
+							<matrix m="3" n="3" name="Q">
+								-0.21 0.2 0.01
+								0.05 -0.1 0.05
+								0.01 0.2 -0.21
+							<\matrix>
+						<\MarkovSimple>
+					<\vector>
+				<\DynComp>
+			<\MarkovDyn>
+			<MarkovDyn>
+				<DynComp name="DynComp">
+					<Dynamics name="Dynamics">
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="6" value="2" \>
+							<\map>
+						<\Context>
+						<Context name="cv">
+							<map name="card">
+								<pair.int.int key="4" value="3" \>
+								<pair.int.int key="5" value="3" \>
+							<\map>
+						<\Context>
+					<\Dynamics>
+					<vector nelem=9 name="impl">
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-6 6
+								0.1 -0.1
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-1 1
+								0.1 -0.1
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-6 6
+								0.1 -0.1
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-1 1
+								0.3 -0.3
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-0.3 0.3
+								0.3 -0.3
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-1 1
+								0.3 -0.3
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-0.01 0.01
+								2 -2
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-0.01 0.01
+								2 -2
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-0.01 0.01
+								2 -2
+							<\matrix>
+						<\MarkovSimple>
+					<\vector>
+				<\DynComp>
+			<\MarkovDyn>
+			<MarkovDyn>
+				<DynComp name="DynComp">
+					<Dynamics name="Dynamics">
+						<Context name="v">
+							<map name="card">
+								<pair.int.int key="7" value="2" \>
+							<\map>
+						<\Context>
+						<Context name="cv">
+							<map name="card">
+								<pair.int.int key="4" value="3" \>
+							<\map>
+						<\Context>
+					<\Dynamics>
+					<vector nelem=3 name="impl">
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-0.17 0.17
+								0.5 -0.5
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-0.33 0.33
+								0.33 -0.33
+							<\matrix>
+						<\MarkovSimple>
+						<MarkovSimple>
+							<matrix m="2" n="2" name="Q">
+								-1 1
+								0.1 -0.1
+							<\matrix>
+						<\MarkovSimple>
+					<\vector>
+				<\DynComp>
+			<\MarkovDyn>
+		<\vector>
+	<\CTBNDyn>
+<\Markov>
+
+0 10 3 0 2 0.5 1 0.5 -1  1 1 2.5 2  6 1 5 1  

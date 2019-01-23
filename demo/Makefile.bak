@@ -1,0 +1,2257 @@
+SRC := $(wildcard *.cc)
+LIBOBJ = ../src/ctbn.a ../glpk/glpk-4.47/src/.libs/libglpk.a
+LPOBJ = ../src/linearprogram.o
+
+EXES = clique_example makechain makedrug learnparams gibbssampquery sampleprocess traj2ascii using_graphic structurelearn sem makeqinput emlearn gen_fulldata gen_partialdata isquery twonode exactquery
+
+DATA = queryinput.data drug.ctbn drug.ctbndyn
+
+CXX = g++
+OFLAG = -O3
+#OFLAG = -ggdb 
+
+CXXFLAGS += $(OFLAG) -std=c++03 -pedantic -Wall -Wextra -Wno-long-long -Wno-unused-parameter -Wno-reorder -Wno-unused-variable
+CXXFLAGS += -I../hdr -I../tst -I../glpk/glpk-4.47/include -I../glpk/glpk-4.47/src -L../glpk/glpk-4.47/src/.libs
+CXXFLAGS += -DUSE_PTHREADS
+LDFLAGS = -lglpk -lpthread
+
+DEPEND = makedepend -Y -- $(CXXFLAGS) --
+
+
+all: $(EXES) $(DATA)
+
+depend: $(SRC)
+	$(DEPEND) $(SRC)
+
+queryinput.data: makeqinput
+	(rm -f makequeryinput.data; ./makeqinput > queryinput.data)
+
+drug.ctbn: makedrug
+	(rm -f drug.ctbn; ./makedrug > drug.ctbn)
+
+drug.ctbndyn: makedrug
+	(rm -f drug.ctbndyn; ./makedrug -Dsavedyn 1 > drug.ctbndyn)
+
+using_graphic: using_graphic.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o using_graphic using_graphic.o $(LIBOBJ)
+
+clique_example: clique_example.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o clique_example clique_example.o $(LIBOBJ)
+
+makechain: makechain.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o makechain makechain.o $(LIBOBJ)
+
+maketraj: maketraj.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o maketraj maketraj.o $(LIBOBJ)
+
+twonode: twonode.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o twonode twonode.o $(LIBOBJ)
+
+makedrug: makedrug.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o makedrug makedrug.o $(LIBOBJ)
+
+learnparams: learnparams.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o learnparams learnparams.o $(LIBOBJ)
+
+emlearn: emlearn.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o emlearn emlearn.o $(LIBOBJ) -lpthread
+
+gibbssampquery: gibbssampquery.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o gibbssampquery gibbssampquery.o $(LIBOBJ)
+
+exactquery: exactquery.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o exactquery exactquery.o $(LIBOBJ)
+
+
+isquery: isquery.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o isquery isquery.o $(LIBOBJ)
+
+sampleprocess: sampleprocess.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o sampleprocess sampleprocess.o $(LIBOBJ)
+
+traj2ascii: traj2ascii.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o traj2ascii traj2ascii.o $(LIBOBJ)
+
+makeqinput: makeqinput.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o makeqinput makeqinput.o $(LIBOBJ)
+
+structurelearn: structurelearn.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o structurelearn structurelearn.o $(LIBOBJ)
+
+gen_fulldata: gen_fulldata.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o gen_fulldata gen_fulldata.o $(LIBOBJ)
+
+gen_partialdata: gen_partialdata.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o gen_partialdata gen_partialdata.o $(LIBOBJ)
+
+sem: sem.o $(LIBOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o sem sem.o $(LIBOBJ)
+
+clean:
+	rm -rf *.o *~ $(EXES)
+# DO NOT DELETE
+
+sampleprocess.o: ../hdr/process.h ../hdr/dynamics.h ../hdr/context.h
+sampleprocess.o: ../hdr/streamserial.h ../hdr/serial/serial.h
+sampleprocess.o: ../hdr/nullptr03.h ../hdr/streamserial-old.h
+sampleprocess.o: ../hdr/defines.h ../hdr/streamextra.h ../hdr/trajectory.h
+sampleprocess.o: ../hdr/rvsimple.h ../hdr/matrix.h ../hdr/matrix-eigen.h
+sampleprocess.o: ../hdr/Eigen/Core
+sampleprocess.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+sampleprocess.o: ../hdr/Eigen/src/Core/util/Macros.h
+sampleprocess.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+sampleprocess.o: ../hdr/Eigen/src/Core/util/Constants.h
+sampleprocess.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+sampleprocess.o: ../hdr/Eigen/src/Core/util/Meta.h
+sampleprocess.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+sampleprocess.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+sampleprocess.o: ../hdr/Eigen/src/Core/util/Memory.h
+sampleprocess.o: ../hdr/Eigen/src/Core/NumTraits.h
+sampleprocess.o: ../hdr/Eigen/src/Core/MathFunctions.h
+sampleprocess.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+sampleprocess.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Functors.h
+sampleprocess.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+sampleprocess.o: ../hdr/Eigen/src/Core/DenseBase.h
+sampleprocess.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+sampleprocess.o: ../hdr/Eigen/src/Core/MatrixBase.h
+sampleprocess.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+sampleprocess.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+sampleprocess.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+sampleprocess.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+sampleprocess.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Assign.h
+sampleprocess.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+sampleprocess.o: ../hdr/Eigen/src/Core/DenseStorage.h
+sampleprocess.o: ../hdr/Eigen/src/Core/NestByValue.h
+sampleprocess.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+sampleprocess.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+sampleprocess.o: ../hdr/Eigen/src/Core/NoAlias.h
+sampleprocess.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Matrix.h ../hdr/Eigen/src/Core/Array.h
+sampleprocess.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+sampleprocess.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+sampleprocess.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+sampleprocess.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+sampleprocess.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Dot.h
+sampleprocess.o: ../hdr/Eigen/src/Core/StableNorm.h
+sampleprocess.o: ../hdr/Eigen/src/Core/MapBase.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Stride.h ../hdr/Eigen/src/Core/Map.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Block.h
+sampleprocess.o: ../hdr/Eigen/src/Core/VectorBlock.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Transpose.h
+sampleprocess.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Diagonal.h
+sampleprocess.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+sampleprocess.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Transpositions.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Redux.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Visitor.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Swap.h
+sampleprocess.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Flagged.h
+sampleprocess.o: ../hdr/Eigen/src/Core/ProductBase.h
+sampleprocess.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+sampleprocess.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+sampleprocess.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+sampleprocess.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+sampleprocess.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+sampleprocess.o: ../hdr/Eigen/src/Core/BandMatrix.h
+sampleprocess.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Select.h
+sampleprocess.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Random.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Replicate.h
+sampleprocess.o: ../hdr/Eigen/src/Core/Reverse.h
+sampleprocess.o: ../hdr/Eigen/src/Core/ArrayBase.h
+sampleprocess.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+sampleprocess.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+sampleprocess.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+sampleprocess.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+sampleprocess.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+sampleprocess.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore
+sampleprocess.o: ../hdr/Eigen/Core ../hdr/Eigen/src/SparseCore/SparseUtil.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+sampleprocess.o: ../hdr/Eigen/OrderingMethods
+sampleprocess.o: ../hdr/Eigen/src/OrderingMethods/Amd.h
+sampleprocess.o: ../hdr/Eigen/SparseCholesky ../hdr/Eigen/src/misc/Solve.h
+sampleprocess.o: ../hdr/Eigen/src/misc/SparseSolve.h
+sampleprocess.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+sampleprocess.o: ../hdr/Eigen/IterativeLinearSolvers
+sampleprocess.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+sampleprocess.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+sampleprocess.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+sampleprocess.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+sampleprocess.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+sampleprocess.o: ../hdr/matrix-stream.h ../hdr/random.h ../hdr/rv.h
+sampleprocess.o: ../hdr/ss.h ../hdr/params.h ../hdr/ensurectbn.h
+sampleprocess.o: ../hdr/ctbn.h ../hdr/markov.h ../hdr/structure.h
+sampleprocess.o: ../hdr/ctbndyn.h ../hdr/suffstatsquery.h ../hdr/extramath.h
+sampleprocess.o: ../hdr/markovdyn.h ../hdr/markovsimple.h ../hdr/dynsimple.h
+sampleprocess.o: ../hdr/dyncomp.h ../hdr/bn.h ../hdr/multirv.h
+sampleprocess.o: ../hdr/rvcomp.h ../hdr/multisimple.h
+sem.o: ../hdr/markovdyn.h ../hdr/markovsimple.h ../hdr/dynsimple.h
+sem.o: ../hdr/random.h ../hdr/matrix.h ../hdr/matrix-eigen.h
+sem.o: ../hdr/streamserial.h ../hdr/serial/serial.h ../hdr/nullptr03.h
+sem.o: ../hdr/streamserial-old.h ../hdr/defines.h ../hdr/streamextra.h
+sem.o: ../hdr/Eigen/Core ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+sem.o: ../hdr/Eigen/src/Core/util/Macros.h
+sem.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+sem.o: ../hdr/Eigen/src/Core/util/Constants.h
+sem.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+sem.o: ../hdr/Eigen/src/Core/util/Meta.h
+sem.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+sem.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+sem.o: ../hdr/Eigen/src/Core/util/Memory.h ../hdr/Eigen/src/Core/NumTraits.h
+sem.o: ../hdr/Eigen/src/Core/MathFunctions.h
+sem.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+sem.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+sem.o: ../hdr/Eigen/src/Core/Functors.h
+sem.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+sem.o: ../hdr/Eigen/src/Core/DenseBase.h
+sem.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+sem.o: ../hdr/Eigen/src/Core/MatrixBase.h
+sem.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+sem.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+sem.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+sem.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+sem.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+sem.o: ../hdr/Eigen/src/Core/Assign.h ../hdr/Eigen/src/Core/util/BlasUtil.h
+sem.o: ../hdr/Eigen/src/Core/DenseStorage.h
+sem.o: ../hdr/Eigen/src/Core/NestByValue.h
+sem.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+sem.o: ../hdr/Eigen/src/Core/ReturnByValue.h ../hdr/Eigen/src/Core/NoAlias.h
+sem.o: ../hdr/Eigen/src/Core/PlainObjectBase.h ../hdr/Eigen/src/Core/Matrix.h
+sem.o: ../hdr/Eigen/src/Core/Array.h ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+sem.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+sem.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+sem.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+sem.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h ../hdr/Eigen/src/Core/Dot.h
+sem.o: ../hdr/Eigen/src/Core/StableNorm.h ../hdr/Eigen/src/Core/MapBase.h
+sem.o: ../hdr/Eigen/src/Core/Stride.h ../hdr/Eigen/src/Core/Map.h
+sem.o: ../hdr/Eigen/src/Core/Block.h ../hdr/Eigen/src/Core/VectorBlock.h
+sem.o: ../hdr/Eigen/src/Core/Transpose.h
+sem.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+sem.o: ../hdr/Eigen/src/Core/Diagonal.h
+sem.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+sem.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+sem.o: ../hdr/Eigen/src/Core/Transpositions.h ../hdr/Eigen/src/Core/Redux.h
+sem.o: ../hdr/Eigen/src/Core/Visitor.h ../hdr/Eigen/src/Core/Fuzzy.h
+sem.o: ../hdr/Eigen/src/Core/IO.h ../hdr/Eigen/src/Core/Swap.h
+sem.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+sem.o: ../hdr/Eigen/src/Core/Flagged.h ../hdr/Eigen/src/Core/ProductBase.h
+sem.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+sem.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+sem.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+sem.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+sem.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+sem.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+sem.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+sem.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+sem.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+sem.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+sem.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+sem.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+sem.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+sem.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+sem.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+sem.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+sem.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+sem.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+sem.o: ../hdr/Eigen/src/Core/BandMatrix.h
+sem.o: ../hdr/Eigen/src/Core/BooleanRedux.h ../hdr/Eigen/src/Core/Select.h
+sem.o: ../hdr/Eigen/src/Core/VectorwiseOp.h ../hdr/Eigen/src/Core/Random.h
+sem.o: ../hdr/Eigen/src/Core/Replicate.h ../hdr/Eigen/src/Core/Reverse.h
+sem.o: ../hdr/Eigen/src/Core/ArrayBase.h
+sem.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+sem.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+sem.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+sem.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+sem.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+sem.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore ../hdr/Eigen/Core
+sem.o: ../hdr/Eigen/src/SparseCore/SparseUtil.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+sem.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+sem.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+sem.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+sem.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+sem.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+sem.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+sem.o: ../hdr/Eigen/src/SparseCore/SparseView.h ../hdr/Eigen/OrderingMethods
+sem.o: ../hdr/Eigen/src/OrderingMethods/Amd.h ../hdr/Eigen/SparseCholesky
+sem.o: ../hdr/Eigen/src/misc/Solve.h ../hdr/Eigen/src/misc/SparseSolve.h
+sem.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+sem.o: ../hdr/Eigen/IterativeLinearSolvers
+sem.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+sem.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+sem.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+sem.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+sem.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+sem.o: ../hdr/matrix-stream.h ../hdr/ss.h ../hdr/rvsimple.h ../hdr/rv.h
+sem.o: ../hdr/context.h ../hdr/trajectory.h ../hdr/dyncomp.h
+sem.o: ../hdr/dynamics.h ../hdr/markov.h ../hdr/process.h ../hdr/structure.h
+sem.o: ../hdr/ctbndyn.h ../hdr/suffstatsquery.h ../hdr/extramath.h
+sem.o: ../hdr/multirv.h ../hdr/rvcomp.h ../hdr/multisimple.h
+sem.o: ../hdr/samplinginf.h ../hdr/inference.h ../hdr/bn.h ../hdr/sampler.h
+sem.o: ../hdr/varsample.h ../hdr/expmethod.h ../hdr/importancesampler.h
+sem.o: ../hdr/impbase.h ../hdr/ctbn.h ../hdr/params.h ../hdr/em.h
+sem.o: ../hdr/nonexpsuffstatsquery.h ../hdr/famscore.h
+sem.o: ../hdr/grapheditsearch.h ../hdr/structuresearch.h ../hdr/searchqueue.h
+sem.o: ../hdr/utils.h
+traj2ascii.o: ../hdr/trajectory.h ../hdr/context.h ../hdr/streamserial.h
+traj2ascii.o: ../hdr/serial/serial.h ../hdr/nullptr03.h
+traj2ascii.o: ../hdr/streamserial-old.h ../hdr/defines.h ../hdr/streamextra.h
+traj2ascii.o: ../hdr/params.h
+isquery.o: ../hdr/markovdyn.h ../hdr/markovsimple.h ../hdr/dynsimple.h
+isquery.o: ../hdr/random.h ../hdr/matrix.h ../hdr/matrix-eigen.h
+isquery.o: ../hdr/streamserial.h ../hdr/serial/serial.h ../hdr/nullptr03.h
+isquery.o: ../hdr/streamserial-old.h ../hdr/defines.h ../hdr/streamextra.h
+isquery.o: ../hdr/Eigen/Core
+isquery.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+isquery.o: ../hdr/Eigen/src/Core/util/Macros.h
+isquery.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+isquery.o: ../hdr/Eigen/src/Core/util/Constants.h
+isquery.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+isquery.o: ../hdr/Eigen/src/Core/util/Meta.h
+isquery.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+isquery.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+isquery.o: ../hdr/Eigen/src/Core/util/Memory.h
+isquery.o: ../hdr/Eigen/src/Core/NumTraits.h
+isquery.o: ../hdr/Eigen/src/Core/MathFunctions.h
+isquery.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+isquery.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+isquery.o: ../hdr/Eigen/src/Core/Functors.h
+isquery.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+isquery.o: ../hdr/Eigen/src/Core/DenseBase.h
+isquery.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+isquery.o: ../hdr/Eigen/src/Core/MatrixBase.h
+isquery.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+isquery.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+isquery.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+isquery.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+isquery.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+isquery.o: ../hdr/Eigen/src/Core/Assign.h
+isquery.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+isquery.o: ../hdr/Eigen/src/Core/DenseStorage.h
+isquery.o: ../hdr/Eigen/src/Core/NestByValue.h
+isquery.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+isquery.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+isquery.o: ../hdr/Eigen/src/Core/NoAlias.h
+isquery.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+isquery.o: ../hdr/Eigen/src/Core/Matrix.h ../hdr/Eigen/src/Core/Array.h
+isquery.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+isquery.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+isquery.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+isquery.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+isquery.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+isquery.o: ../hdr/Eigen/src/Core/Dot.h ../hdr/Eigen/src/Core/StableNorm.h
+isquery.o: ../hdr/Eigen/src/Core/MapBase.h ../hdr/Eigen/src/Core/Stride.h
+isquery.o: ../hdr/Eigen/src/Core/Map.h ../hdr/Eigen/src/Core/Block.h
+isquery.o: ../hdr/Eigen/src/Core/VectorBlock.h
+isquery.o: ../hdr/Eigen/src/Core/Transpose.h
+isquery.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+isquery.o: ../hdr/Eigen/src/Core/Diagonal.h
+isquery.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+isquery.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+isquery.o: ../hdr/Eigen/src/Core/Transpositions.h
+isquery.o: ../hdr/Eigen/src/Core/Redux.h ../hdr/Eigen/src/Core/Visitor.h
+isquery.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+isquery.o: ../hdr/Eigen/src/Core/Swap.h
+isquery.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+isquery.o: ../hdr/Eigen/src/Core/Flagged.h
+isquery.o: ../hdr/Eigen/src/Core/ProductBase.h
+isquery.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+isquery.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+isquery.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+isquery.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+isquery.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+isquery.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+isquery.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+isquery.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+isquery.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+isquery.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+isquery.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+isquery.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+isquery.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+isquery.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+isquery.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+isquery.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+isquery.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+isquery.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+isquery.o: ../hdr/Eigen/src/Core/BandMatrix.h
+isquery.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+isquery.o: ../hdr/Eigen/src/Core/Select.h
+isquery.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+isquery.o: ../hdr/Eigen/src/Core/Random.h ../hdr/Eigen/src/Core/Replicate.h
+isquery.o: ../hdr/Eigen/src/Core/Reverse.h ../hdr/Eigen/src/Core/ArrayBase.h
+isquery.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+isquery.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+isquery.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+isquery.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+isquery.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+isquery.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore ../hdr/Eigen/Core
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseUtil.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+isquery.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+isquery.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+isquery.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+isquery.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+isquery.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+isquery.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+isquery.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+isquery.o: ../hdr/Eigen/OrderingMethods
+isquery.o: ../hdr/Eigen/src/OrderingMethods/Amd.h ../hdr/Eigen/SparseCholesky
+isquery.o: ../hdr/Eigen/src/misc/Solve.h ../hdr/Eigen/src/misc/SparseSolve.h
+isquery.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+isquery.o: ../hdr/Eigen/IterativeLinearSolvers
+isquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+isquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+isquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+isquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+isquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+isquery.o: ../hdr/matrix-stream.h ../hdr/ss.h ../hdr/rvsimple.h ../hdr/rv.h
+isquery.o: ../hdr/context.h ../hdr/trajectory.h ../hdr/dyncomp.h
+isquery.o: ../hdr/dynamics.h ../hdr/multirv.h ../hdr/rvcomp.h
+isquery.o: ../hdr/multisimple.h ../hdr/samplinginf.h ../hdr/inference.h
+isquery.o: ../hdr/bn.h ../hdr/structure.h ../hdr/ctbndyn.h
+isquery.o: ../hdr/suffstatsquery.h ../hdr/process.h ../hdr/sampler.h
+isquery.o: ../hdr/varsample.h ../hdr/markov.h ../hdr/extramath.h
+isquery.o: ../hdr/importancesampler.h ../hdr/impbase.h ../hdr/ctbn.h
+isquery.o: ../hdr/expmethod.h ../hdr/params.h ../hdr/em.h ../hdr/utils.h
+isquery.o: ../hdr/ensurectbn.h
+structurelearn.o: ../hdr/markovdyn.h ../hdr/markovsimple.h ../hdr/dynsimple.h
+structurelearn.o: ../hdr/random.h ../hdr/matrix.h ../hdr/matrix-eigen.h
+structurelearn.o: ../hdr/streamserial.h ../hdr/serial/serial.h
+structurelearn.o: ../hdr/nullptr03.h ../hdr/streamserial-old.h
+structurelearn.o: ../hdr/defines.h ../hdr/streamextra.h ../hdr/Eigen/Core
+structurelearn.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+structurelearn.o: ../hdr/Eigen/src/Core/util/Macros.h
+structurelearn.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+structurelearn.o: ../hdr/Eigen/src/Core/util/Constants.h
+structurelearn.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+structurelearn.o: ../hdr/Eigen/src/Core/util/Meta.h
+structurelearn.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+structurelearn.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+structurelearn.o: ../hdr/Eigen/src/Core/util/Memory.h
+structurelearn.o: ../hdr/Eigen/src/Core/NumTraits.h
+structurelearn.o: ../hdr/Eigen/src/Core/MathFunctions.h
+structurelearn.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+structurelearn.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+structurelearn.o: ../hdr/Eigen/src/Core/Functors.h
+structurelearn.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+structurelearn.o: ../hdr/Eigen/src/Core/DenseBase.h
+structurelearn.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+structurelearn.o: ../hdr/Eigen/src/Core/MatrixBase.h
+structurelearn.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+structurelearn.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+structurelearn.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+structurelearn.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+structurelearn.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+structurelearn.o: ../hdr/Eigen/src/Core/Assign.h
+structurelearn.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+structurelearn.o: ../hdr/Eigen/src/Core/DenseStorage.h
+structurelearn.o: ../hdr/Eigen/src/Core/NestByValue.h
+structurelearn.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+structurelearn.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+structurelearn.o: ../hdr/Eigen/src/Core/NoAlias.h
+structurelearn.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+structurelearn.o: ../hdr/Eigen/src/Core/Matrix.h
+structurelearn.o: ../hdr/Eigen/src/Core/Array.h
+structurelearn.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+structurelearn.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+structurelearn.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+structurelearn.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+structurelearn.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+structurelearn.o: ../hdr/Eigen/src/Core/Dot.h
+structurelearn.o: ../hdr/Eigen/src/Core/StableNorm.h
+structurelearn.o: ../hdr/Eigen/src/Core/MapBase.h
+structurelearn.o: ../hdr/Eigen/src/Core/Stride.h ../hdr/Eigen/src/Core/Map.h
+structurelearn.o: ../hdr/Eigen/src/Core/Block.h
+structurelearn.o: ../hdr/Eigen/src/Core/VectorBlock.h
+structurelearn.o: ../hdr/Eigen/src/Core/Transpose.h
+structurelearn.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+structurelearn.o: ../hdr/Eigen/src/Core/Diagonal.h
+structurelearn.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+structurelearn.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+structurelearn.o: ../hdr/Eigen/src/Core/Transpositions.h
+structurelearn.o: ../hdr/Eigen/src/Core/Redux.h
+structurelearn.o: ../hdr/Eigen/src/Core/Visitor.h
+structurelearn.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+structurelearn.o: ../hdr/Eigen/src/Core/Swap.h
+structurelearn.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+structurelearn.o: ../hdr/Eigen/src/Core/Flagged.h
+structurelearn.o: ../hdr/Eigen/src/Core/ProductBase.h
+structurelearn.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+structurelearn.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+structurelearn.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+structurelearn.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+structurelearn.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+structurelearn.o: ../hdr/Eigen/src/Core/BandMatrix.h
+structurelearn.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+structurelearn.o: ../hdr/Eigen/src/Core/Select.h
+structurelearn.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+structurelearn.o: ../hdr/Eigen/src/Core/Random.h
+structurelearn.o: ../hdr/Eigen/src/Core/Replicate.h
+structurelearn.o: ../hdr/Eigen/src/Core/Reverse.h
+structurelearn.o: ../hdr/Eigen/src/Core/ArrayBase.h
+structurelearn.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+structurelearn.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+structurelearn.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+structurelearn.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+structurelearn.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+structurelearn.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore
+structurelearn.o: ../hdr/Eigen/Core ../hdr/Eigen/src/SparseCore/SparseUtil.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+structurelearn.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+structurelearn.o: ../hdr/Eigen/OrderingMethods
+structurelearn.o: ../hdr/Eigen/src/OrderingMethods/Amd.h
+structurelearn.o: ../hdr/Eigen/SparseCholesky ../hdr/Eigen/src/misc/Solve.h
+structurelearn.o: ../hdr/Eigen/src/misc/SparseSolve.h
+structurelearn.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+structurelearn.o: ../hdr/Eigen/IterativeLinearSolvers
+structurelearn.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+structurelearn.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+structurelearn.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+structurelearn.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+structurelearn.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+structurelearn.o: ../hdr/matrix-stream.h ../hdr/ss.h ../hdr/rvsimple.h
+structurelearn.o: ../hdr/rv.h ../hdr/context.h ../hdr/trajectory.h
+structurelearn.o: ../hdr/dyncomp.h ../hdr/dynamics.h ../hdr/markov.h
+structurelearn.o: ../hdr/process.h ../hdr/structure.h ../hdr/ctbndyn.h
+structurelearn.o: ../hdr/suffstatsquery.h ../hdr/extramath.h ../hdr/multirv.h
+structurelearn.o: ../hdr/rvcomp.h ../hdr/multisimple.h ../hdr/params.h
+structurelearn.o: ../hdr/bn.h ../hdr/em.h ../hdr/inference.h ../hdr/ctbn.h
+structurelearn.o: ../hdr/nonexpsuffstatsquery.h ../hdr/famscore.h
+structurelearn.o: ../hdr/grapheditsearch.h ../hdr/structuresearch.h
+structurelearn.o: ../hdr/searchqueue.h
+twonode.o: ../hdr/ctbn.h ../hdr/nullptr03.h ../hdr/markov.h ../hdr/process.h
+twonode.o: ../hdr/dynamics.h ../hdr/context.h ../hdr/streamserial.h
+twonode.o: ../hdr/serial/serial.h ../hdr/streamserial-old.h ../hdr/defines.h
+twonode.o: ../hdr/streamextra.h ../hdr/trajectory.h ../hdr/rvsimple.h
+twonode.o: ../hdr/matrix.h ../hdr/matrix-eigen.h ../hdr/Eigen/Core
+twonode.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+twonode.o: ../hdr/Eigen/src/Core/util/Macros.h
+twonode.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+twonode.o: ../hdr/Eigen/src/Core/util/Constants.h
+twonode.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+twonode.o: ../hdr/Eigen/src/Core/util/Meta.h
+twonode.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+twonode.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+twonode.o: ../hdr/Eigen/src/Core/util/Memory.h
+twonode.o: ../hdr/Eigen/src/Core/NumTraits.h
+twonode.o: ../hdr/Eigen/src/Core/MathFunctions.h
+twonode.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+twonode.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+twonode.o: ../hdr/Eigen/src/Core/Functors.h
+twonode.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+twonode.o: ../hdr/Eigen/src/Core/DenseBase.h
+twonode.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+twonode.o: ../hdr/Eigen/src/Core/MatrixBase.h
+twonode.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+twonode.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+twonode.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+twonode.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+twonode.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+twonode.o: ../hdr/Eigen/src/Core/Assign.h
+twonode.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+twonode.o: ../hdr/Eigen/src/Core/DenseStorage.h
+twonode.o: ../hdr/Eigen/src/Core/NestByValue.h
+twonode.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+twonode.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+twonode.o: ../hdr/Eigen/src/Core/NoAlias.h
+twonode.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+twonode.o: ../hdr/Eigen/src/Core/Matrix.h ../hdr/Eigen/src/Core/Array.h
+twonode.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+twonode.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+twonode.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+twonode.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+twonode.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+twonode.o: ../hdr/Eigen/src/Core/Dot.h ../hdr/Eigen/src/Core/StableNorm.h
+twonode.o: ../hdr/Eigen/src/Core/MapBase.h ../hdr/Eigen/src/Core/Stride.h
+twonode.o: ../hdr/Eigen/src/Core/Map.h ../hdr/Eigen/src/Core/Block.h
+twonode.o: ../hdr/Eigen/src/Core/VectorBlock.h
+twonode.o: ../hdr/Eigen/src/Core/Transpose.h
+twonode.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+twonode.o: ../hdr/Eigen/src/Core/Diagonal.h
+twonode.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+twonode.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+twonode.o: ../hdr/Eigen/src/Core/Transpositions.h
+twonode.o: ../hdr/Eigen/src/Core/Redux.h ../hdr/Eigen/src/Core/Visitor.h
+twonode.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+twonode.o: ../hdr/Eigen/src/Core/Swap.h
+twonode.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+twonode.o: ../hdr/Eigen/src/Core/Flagged.h
+twonode.o: ../hdr/Eigen/src/Core/ProductBase.h
+twonode.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+twonode.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+twonode.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+twonode.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+twonode.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+twonode.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+twonode.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+twonode.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+twonode.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+twonode.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+twonode.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+twonode.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+twonode.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+twonode.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+twonode.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+twonode.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+twonode.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+twonode.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+twonode.o: ../hdr/Eigen/src/Core/BandMatrix.h
+twonode.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+twonode.o: ../hdr/Eigen/src/Core/Select.h
+twonode.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+twonode.o: ../hdr/Eigen/src/Core/Random.h ../hdr/Eigen/src/Core/Replicate.h
+twonode.o: ../hdr/Eigen/src/Core/Reverse.h ../hdr/Eigen/src/Core/ArrayBase.h
+twonode.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+twonode.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+twonode.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+twonode.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+twonode.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+twonode.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore ../hdr/Eigen/Core
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseUtil.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+twonode.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+twonode.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+twonode.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+twonode.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+twonode.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+twonode.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+twonode.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+twonode.o: ../hdr/Eigen/OrderingMethods
+twonode.o: ../hdr/Eigen/src/OrderingMethods/Amd.h ../hdr/Eigen/SparseCholesky
+twonode.o: ../hdr/Eigen/src/misc/Solve.h ../hdr/Eigen/src/misc/SparseSolve.h
+twonode.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+twonode.o: ../hdr/Eigen/IterativeLinearSolvers
+twonode.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+twonode.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+twonode.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+twonode.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+twonode.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+twonode.o: ../hdr/matrix-stream.h ../hdr/random.h ../hdr/rv.h ../hdr/ss.h
+twonode.o: ../hdr/structure.h ../hdr/ctbndyn.h ../hdr/suffstatsquery.h
+twonode.o: ../hdr/extramath.h ../hdr/markovdyn.h ../hdr/markovsimple.h
+twonode.o: ../hdr/dynsimple.h ../hdr/dyncomp.h ../hdr/bn.h ../hdr/multirv.h
+twonode.o: ../hdr/rvcomp.h ../hdr/multisimple.h
+learnparams.o: ../hdr/markov.h ../hdr/process.h ../hdr/dynamics.h
+learnparams.o: ../hdr/context.h ../hdr/streamserial.h ../hdr/serial/serial.h
+learnparams.o: ../hdr/nullptr03.h ../hdr/streamserial-old.h ../hdr/defines.h
+learnparams.o: ../hdr/streamextra.h ../hdr/trajectory.h ../hdr/rvsimple.h
+learnparams.o: ../hdr/matrix.h ../hdr/matrix-eigen.h ../hdr/Eigen/Core
+learnparams.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+learnparams.o: ../hdr/Eigen/src/Core/util/Macros.h
+learnparams.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+learnparams.o: ../hdr/Eigen/src/Core/util/Constants.h
+learnparams.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+learnparams.o: ../hdr/Eigen/src/Core/util/Meta.h
+learnparams.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+learnparams.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+learnparams.o: ../hdr/Eigen/src/Core/util/Memory.h
+learnparams.o: ../hdr/Eigen/src/Core/NumTraits.h
+learnparams.o: ../hdr/Eigen/src/Core/MathFunctions.h
+learnparams.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+learnparams.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+learnparams.o: ../hdr/Eigen/src/Core/Functors.h
+learnparams.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+learnparams.o: ../hdr/Eigen/src/Core/DenseBase.h
+learnparams.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+learnparams.o: ../hdr/Eigen/src/Core/MatrixBase.h
+learnparams.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+learnparams.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+learnparams.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+learnparams.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+learnparams.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+learnparams.o: ../hdr/Eigen/src/Core/Assign.h
+learnparams.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+learnparams.o: ../hdr/Eigen/src/Core/DenseStorage.h
+learnparams.o: ../hdr/Eigen/src/Core/NestByValue.h
+learnparams.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+learnparams.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+learnparams.o: ../hdr/Eigen/src/Core/NoAlias.h
+learnparams.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+learnparams.o: ../hdr/Eigen/src/Core/Matrix.h ../hdr/Eigen/src/Core/Array.h
+learnparams.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+learnparams.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+learnparams.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+learnparams.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+learnparams.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+learnparams.o: ../hdr/Eigen/src/Core/Dot.h ../hdr/Eigen/src/Core/StableNorm.h
+learnparams.o: ../hdr/Eigen/src/Core/MapBase.h ../hdr/Eigen/src/Core/Stride.h
+learnparams.o: ../hdr/Eigen/src/Core/Map.h ../hdr/Eigen/src/Core/Block.h
+learnparams.o: ../hdr/Eigen/src/Core/VectorBlock.h
+learnparams.o: ../hdr/Eigen/src/Core/Transpose.h
+learnparams.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+learnparams.o: ../hdr/Eigen/src/Core/Diagonal.h
+learnparams.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+learnparams.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+learnparams.o: ../hdr/Eigen/src/Core/Transpositions.h
+learnparams.o: ../hdr/Eigen/src/Core/Redux.h ../hdr/Eigen/src/Core/Visitor.h
+learnparams.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+learnparams.o: ../hdr/Eigen/src/Core/Swap.h
+learnparams.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+learnparams.o: ../hdr/Eigen/src/Core/Flagged.h
+learnparams.o: ../hdr/Eigen/src/Core/ProductBase.h
+learnparams.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+learnparams.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+learnparams.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+learnparams.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+learnparams.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+learnparams.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+learnparams.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+learnparams.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+learnparams.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+learnparams.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+learnparams.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+learnparams.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+learnparams.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+learnparams.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+learnparams.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+learnparams.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+learnparams.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+learnparams.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+learnparams.o: ../hdr/Eigen/src/Core/BandMatrix.h
+learnparams.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+learnparams.o: ../hdr/Eigen/src/Core/Select.h
+learnparams.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+learnparams.o: ../hdr/Eigen/src/Core/Random.h
+learnparams.o: ../hdr/Eigen/src/Core/Replicate.h
+learnparams.o: ../hdr/Eigen/src/Core/Reverse.h
+learnparams.o: ../hdr/Eigen/src/Core/ArrayBase.h
+learnparams.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+learnparams.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+learnparams.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+learnparams.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+learnparams.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+learnparams.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore ../hdr/Eigen/Core
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseUtil.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+learnparams.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+learnparams.o: ../hdr/Eigen/OrderingMethods
+learnparams.o: ../hdr/Eigen/src/OrderingMethods/Amd.h
+learnparams.o: ../hdr/Eigen/SparseCholesky ../hdr/Eigen/src/misc/Solve.h
+learnparams.o: ../hdr/Eigen/src/misc/SparseSolve.h
+learnparams.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+learnparams.o: ../hdr/Eigen/IterativeLinearSolvers
+learnparams.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+learnparams.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+learnparams.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+learnparams.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+learnparams.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+learnparams.o: ../hdr/matrix-stream.h ../hdr/random.h ../hdr/rv.h ../hdr/ss.h
+learnparams.o: ../hdr/structure.h ../hdr/ctbndyn.h ../hdr/suffstatsquery.h
+learnparams.o: ../hdr/extramath.h ../hdr/params.h ../hdr/ensurectbn.h
+learnparams.o: ../hdr/ctbn.h ../hdr/markovdyn.h ../hdr/markovsimple.h
+learnparams.o: ../hdr/dynsimple.h ../hdr/dyncomp.h ../hdr/bn.h
+learnparams.o: ../hdr/multirv.h ../hdr/rvcomp.h ../hdr/multisimple.h
+exactquery.o: ../hdr/markovdyn.h ../hdr/markovsimple.h ../hdr/dynsimple.h
+exactquery.o: ../hdr/random.h ../hdr/matrix.h ../hdr/matrix-eigen.h
+exactquery.o: ../hdr/streamserial.h ../hdr/serial/serial.h ../hdr/nullptr03.h
+exactquery.o: ../hdr/streamserial-old.h ../hdr/defines.h ../hdr/streamextra.h
+exactquery.o: ../hdr/Eigen/Core
+exactquery.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+exactquery.o: ../hdr/Eigen/src/Core/util/Macros.h
+exactquery.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+exactquery.o: ../hdr/Eigen/src/Core/util/Constants.h
+exactquery.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+exactquery.o: ../hdr/Eigen/src/Core/util/Meta.h
+exactquery.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+exactquery.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+exactquery.o: ../hdr/Eigen/src/Core/util/Memory.h
+exactquery.o: ../hdr/Eigen/src/Core/NumTraits.h
+exactquery.o: ../hdr/Eigen/src/Core/MathFunctions.h
+exactquery.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+exactquery.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+exactquery.o: ../hdr/Eigen/src/Core/Functors.h
+exactquery.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+exactquery.o: ../hdr/Eigen/src/Core/DenseBase.h
+exactquery.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+exactquery.o: ../hdr/Eigen/src/Core/MatrixBase.h
+exactquery.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+exactquery.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+exactquery.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+exactquery.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+exactquery.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+exactquery.o: ../hdr/Eigen/src/Core/Assign.h
+exactquery.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+exactquery.o: ../hdr/Eigen/src/Core/DenseStorage.h
+exactquery.o: ../hdr/Eigen/src/Core/NestByValue.h
+exactquery.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+exactquery.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+exactquery.o: ../hdr/Eigen/src/Core/NoAlias.h
+exactquery.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+exactquery.o: ../hdr/Eigen/src/Core/Matrix.h ../hdr/Eigen/src/Core/Array.h
+exactquery.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+exactquery.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+exactquery.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+exactquery.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+exactquery.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+exactquery.o: ../hdr/Eigen/src/Core/Dot.h ../hdr/Eigen/src/Core/StableNorm.h
+exactquery.o: ../hdr/Eigen/src/Core/MapBase.h ../hdr/Eigen/src/Core/Stride.h
+exactquery.o: ../hdr/Eigen/src/Core/Map.h ../hdr/Eigen/src/Core/Block.h
+exactquery.o: ../hdr/Eigen/src/Core/VectorBlock.h
+exactquery.o: ../hdr/Eigen/src/Core/Transpose.h
+exactquery.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+exactquery.o: ../hdr/Eigen/src/Core/Diagonal.h
+exactquery.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+exactquery.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+exactquery.o: ../hdr/Eigen/src/Core/Transpositions.h
+exactquery.o: ../hdr/Eigen/src/Core/Redux.h ../hdr/Eigen/src/Core/Visitor.h
+exactquery.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+exactquery.o: ../hdr/Eigen/src/Core/Swap.h
+exactquery.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+exactquery.o: ../hdr/Eigen/src/Core/Flagged.h
+exactquery.o: ../hdr/Eigen/src/Core/ProductBase.h
+exactquery.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+exactquery.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+exactquery.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+exactquery.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+exactquery.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+exactquery.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+exactquery.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+exactquery.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+exactquery.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+exactquery.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+exactquery.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+exactquery.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+exactquery.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+exactquery.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+exactquery.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+exactquery.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+exactquery.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+exactquery.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+exactquery.o: ../hdr/Eigen/src/Core/BandMatrix.h
+exactquery.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+exactquery.o: ../hdr/Eigen/src/Core/Select.h
+exactquery.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+exactquery.o: ../hdr/Eigen/src/Core/Random.h
+exactquery.o: ../hdr/Eigen/src/Core/Replicate.h
+exactquery.o: ../hdr/Eigen/src/Core/Reverse.h
+exactquery.o: ../hdr/Eigen/src/Core/ArrayBase.h
+exactquery.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+exactquery.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+exactquery.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+exactquery.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+exactquery.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+exactquery.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore ../hdr/Eigen/Core
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseUtil.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+exactquery.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+exactquery.o: ../hdr/Eigen/OrderingMethods
+exactquery.o: ../hdr/Eigen/src/OrderingMethods/Amd.h
+exactquery.o: ../hdr/Eigen/SparseCholesky ../hdr/Eigen/src/misc/Solve.h
+exactquery.o: ../hdr/Eigen/src/misc/SparseSolve.h
+exactquery.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+exactquery.o: ../hdr/Eigen/IterativeLinearSolvers
+exactquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+exactquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+exactquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+exactquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+exactquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+exactquery.o: ../hdr/matrix-stream.h ../hdr/ss.h ../hdr/rvsimple.h
+exactquery.o: ../hdr/rv.h ../hdr/context.h ../hdr/trajectory.h
+exactquery.o: ../hdr/dyncomp.h ../hdr/dynamics.h ../hdr/multirv.h
+exactquery.o: ../hdr/rvcomp.h ../hdr/multisimple.h ../hdr/exactmarkovinf.h
+exactquery.o: ../hdr/fbinf.h ../hdr/inference.h ../hdr/bn.h
+exactquery.o: ../hdr/structure.h ../hdr/ctbndyn.h ../hdr/suffstatsquery.h
+exactquery.o: ../hdr/process.h ../hdr/markov.h ../hdr/extramath.h
+exactquery.o: ../hdr/params.h ../hdr/em.h ../hdr/utils.h ../hdr/ensurectbn.h
+exactquery.o: ../hdr/ctbn.h
+gen_fulldata.o: ../hdr/markov.h ../hdr/process.h ../hdr/dynamics.h
+gen_fulldata.o: ../hdr/context.h ../hdr/streamserial.h ../hdr/serial/serial.h
+gen_fulldata.o: ../hdr/nullptr03.h ../hdr/streamserial-old.h ../hdr/defines.h
+gen_fulldata.o: ../hdr/streamextra.h ../hdr/trajectory.h ../hdr/rvsimple.h
+gen_fulldata.o: ../hdr/matrix.h ../hdr/matrix-eigen.h ../hdr/Eigen/Core
+gen_fulldata.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/util/Macros.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/util/Constants.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/util/Meta.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/util/Memory.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/NumTraits.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/MathFunctions.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Functors.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/DenseBase.h
+gen_fulldata.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/MatrixBase.h
+gen_fulldata.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+gen_fulldata.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+gen_fulldata.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+gen_fulldata.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+gen_fulldata.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Assign.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/DenseStorage.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/NestByValue.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/NoAlias.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Matrix.h ../hdr/Eigen/src/Core/Array.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Dot.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/StableNorm.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/MapBase.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Stride.h ../hdr/Eigen/src/Core/Map.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Block.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/VectorBlock.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Transpose.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Diagonal.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Transpositions.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Redux.h ../hdr/Eigen/src/Core/Visitor.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Swap.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Flagged.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/ProductBase.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/BandMatrix.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Select.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Random.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Replicate.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/Reverse.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/ArrayBase.h
+gen_fulldata.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+gen_fulldata.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+gen_fulldata.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+gen_fulldata.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore ../hdr/Eigen/Core
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseUtil.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+gen_fulldata.o: ../hdr/Eigen/OrderingMethods
+gen_fulldata.o: ../hdr/Eigen/src/OrderingMethods/Amd.h
+gen_fulldata.o: ../hdr/Eigen/SparseCholesky ../hdr/Eigen/src/misc/Solve.h
+gen_fulldata.o: ../hdr/Eigen/src/misc/SparseSolve.h
+gen_fulldata.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+gen_fulldata.o: ../hdr/Eigen/IterativeLinearSolvers
+gen_fulldata.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+gen_fulldata.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+gen_fulldata.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+gen_fulldata.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+gen_fulldata.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+gen_fulldata.o: ../hdr/matrix-stream.h ../hdr/random.h ../hdr/rv.h
+gen_fulldata.o: ../hdr/ss.h ../hdr/structure.h ../hdr/ctbndyn.h
+gen_fulldata.o: ../hdr/suffstatsquery.h ../hdr/extramath.h ../hdr/params.h
+gen_fulldata.o: ../hdr/ensurectbn.h ../hdr/ctbn.h ../hdr/markovdyn.h
+gen_fulldata.o: ../hdr/markovsimple.h ../hdr/dynsimple.h ../hdr/dyncomp.h
+gen_fulldata.o: ../hdr/bn.h ../hdr/multirv.h ../hdr/rvcomp.h
+gen_fulldata.o: ../hdr/multisimple.h
+gibbssampquery.o: ../hdr/markovdyn.h ../hdr/markovsimple.h ../hdr/dynsimple.h
+gibbssampquery.o: ../hdr/random.h ../hdr/matrix.h ../hdr/matrix-eigen.h
+gibbssampquery.o: ../hdr/streamserial.h ../hdr/serial/serial.h
+gibbssampquery.o: ../hdr/nullptr03.h ../hdr/streamserial-old.h
+gibbssampquery.o: ../hdr/defines.h ../hdr/streamextra.h ../hdr/Eigen/Core
+gibbssampquery.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/util/Macros.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/util/Constants.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/util/Meta.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/util/Memory.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/NumTraits.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/MathFunctions.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Functors.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/DenseBase.h
+gibbssampquery.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/MatrixBase.h
+gibbssampquery.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+gibbssampquery.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+gibbssampquery.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+gibbssampquery.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+gibbssampquery.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Assign.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/DenseStorage.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/NestByValue.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/NoAlias.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Matrix.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Array.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Dot.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/StableNorm.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/MapBase.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Stride.h ../hdr/Eigen/src/Core/Map.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Block.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/VectorBlock.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Transpose.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Diagonal.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Transpositions.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Redux.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Visitor.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Swap.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Flagged.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/ProductBase.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/BandMatrix.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Select.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Random.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Replicate.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/Reverse.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/ArrayBase.h
+gibbssampquery.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+gibbssampquery.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+gibbssampquery.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+gibbssampquery.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore
+gibbssampquery.o: ../hdr/Eigen/Core ../hdr/Eigen/src/SparseCore/SparseUtil.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+gibbssampquery.o: ../hdr/Eigen/OrderingMethods
+gibbssampquery.o: ../hdr/Eigen/src/OrderingMethods/Amd.h
+gibbssampquery.o: ../hdr/Eigen/SparseCholesky ../hdr/Eigen/src/misc/Solve.h
+gibbssampquery.o: ../hdr/Eigen/src/misc/SparseSolve.h
+gibbssampquery.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+gibbssampquery.o: ../hdr/Eigen/IterativeLinearSolvers
+gibbssampquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+gibbssampquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+gibbssampquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+gibbssampquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+gibbssampquery.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+gibbssampquery.o: ../hdr/matrix-stream.h ../hdr/ss.h ../hdr/rvsimple.h
+gibbssampquery.o: ../hdr/rv.h ../hdr/context.h ../hdr/trajectory.h
+gibbssampquery.o: ../hdr/dyncomp.h ../hdr/dynamics.h ../hdr/multirv.h
+gibbssampquery.o: ../hdr/rvcomp.h ../hdr/multisimple.h ../hdr/samplinginf.h
+gibbssampquery.o: ../hdr/inference.h ../hdr/bn.h ../hdr/structure.h
+gibbssampquery.o: ../hdr/ctbndyn.h ../hdr/suffstatsquery.h ../hdr/process.h
+gibbssampquery.o: ../hdr/sampler.h ../hdr/varsample.h ../hdr/markov.h
+gibbssampquery.o: ../hdr/extramath.h ../hdr/gibbssampler.h ../hdr/gibbsbase.h
+gibbssampquery.o: ../hdr/params.h ../hdr/em.h ../hdr/utils.h
+gibbssampquery.o: ../hdr/ensurectbn.h ../hdr/ctbn.h
+makedrug.o: ../hdr/bn.h ../hdr/rv.h ../hdr/context.h ../hdr/streamserial.h
+makedrug.o: ../hdr/serial/serial.h ../hdr/nullptr03.h
+makedrug.o: ../hdr/streamserial-old.h ../hdr/defines.h ../hdr/streamextra.h
+makedrug.o: ../hdr/trajectory.h ../hdr/random.h ../hdr/matrix.h
+makedrug.o: ../hdr/matrix-eigen.h ../hdr/Eigen/Core
+makedrug.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+makedrug.o: ../hdr/Eigen/src/Core/util/Macros.h
+makedrug.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+makedrug.o: ../hdr/Eigen/src/Core/util/Constants.h
+makedrug.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+makedrug.o: ../hdr/Eigen/src/Core/util/Meta.h
+makedrug.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+makedrug.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+makedrug.o: ../hdr/Eigen/src/Core/util/Memory.h
+makedrug.o: ../hdr/Eigen/src/Core/NumTraits.h
+makedrug.o: ../hdr/Eigen/src/Core/MathFunctions.h
+makedrug.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+makedrug.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+makedrug.o: ../hdr/Eigen/src/Core/Functors.h
+makedrug.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+makedrug.o: ../hdr/Eigen/src/Core/DenseBase.h
+makedrug.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+makedrug.o: ../hdr/Eigen/src/Core/MatrixBase.h
+makedrug.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+makedrug.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+makedrug.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+makedrug.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+makedrug.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+makedrug.o: ../hdr/Eigen/src/Core/Assign.h
+makedrug.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+makedrug.o: ../hdr/Eigen/src/Core/DenseStorage.h
+makedrug.o: ../hdr/Eigen/src/Core/NestByValue.h
+makedrug.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+makedrug.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+makedrug.o: ../hdr/Eigen/src/Core/NoAlias.h
+makedrug.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+makedrug.o: ../hdr/Eigen/src/Core/Matrix.h ../hdr/Eigen/src/Core/Array.h
+makedrug.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+makedrug.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+makedrug.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+makedrug.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+makedrug.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+makedrug.o: ../hdr/Eigen/src/Core/Dot.h ../hdr/Eigen/src/Core/StableNorm.h
+makedrug.o: ../hdr/Eigen/src/Core/MapBase.h ../hdr/Eigen/src/Core/Stride.h
+makedrug.o: ../hdr/Eigen/src/Core/Map.h ../hdr/Eigen/src/Core/Block.h
+makedrug.o: ../hdr/Eigen/src/Core/VectorBlock.h
+makedrug.o: ../hdr/Eigen/src/Core/Transpose.h
+makedrug.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+makedrug.o: ../hdr/Eigen/src/Core/Diagonal.h
+makedrug.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+makedrug.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+makedrug.o: ../hdr/Eigen/src/Core/Transpositions.h
+makedrug.o: ../hdr/Eigen/src/Core/Redux.h ../hdr/Eigen/src/Core/Visitor.h
+makedrug.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+makedrug.o: ../hdr/Eigen/src/Core/Swap.h
+makedrug.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+makedrug.o: ../hdr/Eigen/src/Core/Flagged.h
+makedrug.o: ../hdr/Eigen/src/Core/ProductBase.h
+makedrug.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+makedrug.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+makedrug.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+makedrug.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+makedrug.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+makedrug.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+makedrug.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+makedrug.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+makedrug.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+makedrug.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+makedrug.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+makedrug.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+makedrug.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+makedrug.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+makedrug.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+makedrug.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+makedrug.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+makedrug.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+makedrug.o: ../hdr/Eigen/src/Core/BandMatrix.h
+makedrug.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+makedrug.o: ../hdr/Eigen/src/Core/Select.h
+makedrug.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+makedrug.o: ../hdr/Eigen/src/Core/Random.h ../hdr/Eigen/src/Core/Replicate.h
+makedrug.o: ../hdr/Eigen/src/Core/Reverse.h ../hdr/Eigen/src/Core/ArrayBase.h
+makedrug.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+makedrug.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+makedrug.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+makedrug.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+makedrug.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+makedrug.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore ../hdr/Eigen/Core
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseUtil.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+makedrug.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+makedrug.o: ../hdr/Eigen/OrderingMethods
+makedrug.o: ../hdr/Eigen/src/OrderingMethods/Amd.h
+makedrug.o: ../hdr/Eigen/SparseCholesky ../hdr/Eigen/src/misc/Solve.h
+makedrug.o: ../hdr/Eigen/src/misc/SparseSolve.h
+makedrug.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+makedrug.o: ../hdr/Eigen/IterativeLinearSolvers
+makedrug.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+makedrug.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+makedrug.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+makedrug.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+makedrug.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+makedrug.o: ../hdr/matrix-stream.h ../hdr/structure.h ../hdr/ctbndyn.h
+makedrug.o: ../hdr/dynamics.h ../hdr/rvsimple.h ../hdr/ss.h
+makedrug.o: ../hdr/suffstatsquery.h ../hdr/em.h ../hdr/inference.h
+makedrug.o: ../hdr/process.h ../hdr/ctbn.h ../hdr/markov.h ../hdr/extramath.h
+makedrug.o: ../hdr/markovdyn.h ../hdr/markovsimple.h ../hdr/dynsimple.h
+makedrug.o: ../hdr/dyncomp.h ../hdr/factoredmatrix.h ../hdr/factoredvector.h
+makedrug.o: ../hdr/expmcache.h ../hdr/contfunction.h ../hdr/contfunction.tcc
+makedrug.o: ../hdr/rk.h ../hdr/meanfieldinf.h ../hdr/multirv.h
+makedrug.o: ../hdr/rvcomp.h ../hdr/multisimple.h ../hdr/params.h
+makedrug.o: ../hdr/utils.h
+using_graphic.o: ../hdr/graphic.h ../hdr/markov.h ../hdr/process.h
+using_graphic.o: ../hdr/dynamics.h ../hdr/context.h ../hdr/streamserial.h
+using_graphic.o: ../hdr/serial/serial.h ../hdr/nullptr03.h
+using_graphic.o: ../hdr/streamserial-old.h ../hdr/defines.h
+using_graphic.o: ../hdr/streamextra.h ../hdr/trajectory.h ../hdr/rvsimple.h
+using_graphic.o: ../hdr/matrix.h ../hdr/matrix-eigen.h ../hdr/Eigen/Core
+using_graphic.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+using_graphic.o: ../hdr/Eigen/src/Core/util/Macros.h
+using_graphic.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+using_graphic.o: ../hdr/Eigen/src/Core/util/Constants.h
+using_graphic.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+using_graphic.o: ../hdr/Eigen/src/Core/util/Meta.h
+using_graphic.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+using_graphic.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+using_graphic.o: ../hdr/Eigen/src/Core/util/Memory.h
+using_graphic.o: ../hdr/Eigen/src/Core/NumTraits.h
+using_graphic.o: ../hdr/Eigen/src/Core/MathFunctions.h
+using_graphic.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+using_graphic.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+using_graphic.o: ../hdr/Eigen/src/Core/Functors.h
+using_graphic.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+using_graphic.o: ../hdr/Eigen/src/Core/DenseBase.h
+using_graphic.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+using_graphic.o: ../hdr/Eigen/src/Core/MatrixBase.h
+using_graphic.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+using_graphic.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+using_graphic.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+using_graphic.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+using_graphic.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+using_graphic.o: ../hdr/Eigen/src/Core/Assign.h
+using_graphic.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+using_graphic.o: ../hdr/Eigen/src/Core/DenseStorage.h
+using_graphic.o: ../hdr/Eigen/src/Core/NestByValue.h
+using_graphic.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+using_graphic.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+using_graphic.o: ../hdr/Eigen/src/Core/NoAlias.h
+using_graphic.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+using_graphic.o: ../hdr/Eigen/src/Core/Matrix.h ../hdr/Eigen/src/Core/Array.h
+using_graphic.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+using_graphic.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+using_graphic.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+using_graphic.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+using_graphic.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+using_graphic.o: ../hdr/Eigen/src/Core/Dot.h
+using_graphic.o: ../hdr/Eigen/src/Core/StableNorm.h
+using_graphic.o: ../hdr/Eigen/src/Core/MapBase.h
+using_graphic.o: ../hdr/Eigen/src/Core/Stride.h ../hdr/Eigen/src/Core/Map.h
+using_graphic.o: ../hdr/Eigen/src/Core/Block.h
+using_graphic.o: ../hdr/Eigen/src/Core/VectorBlock.h
+using_graphic.o: ../hdr/Eigen/src/Core/Transpose.h
+using_graphic.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+using_graphic.o: ../hdr/Eigen/src/Core/Diagonal.h
+using_graphic.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+using_graphic.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+using_graphic.o: ../hdr/Eigen/src/Core/Transpositions.h
+using_graphic.o: ../hdr/Eigen/src/Core/Redux.h
+using_graphic.o: ../hdr/Eigen/src/Core/Visitor.h
+using_graphic.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+using_graphic.o: ../hdr/Eigen/src/Core/Swap.h
+using_graphic.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+using_graphic.o: ../hdr/Eigen/src/Core/Flagged.h
+using_graphic.o: ../hdr/Eigen/src/Core/ProductBase.h
+using_graphic.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+using_graphic.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+using_graphic.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+using_graphic.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+using_graphic.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+using_graphic.o: ../hdr/Eigen/src/Core/BandMatrix.h
+using_graphic.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+using_graphic.o: ../hdr/Eigen/src/Core/Select.h
+using_graphic.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+using_graphic.o: ../hdr/Eigen/src/Core/Random.h
+using_graphic.o: ../hdr/Eigen/src/Core/Replicate.h
+using_graphic.o: ../hdr/Eigen/src/Core/Reverse.h
+using_graphic.o: ../hdr/Eigen/src/Core/ArrayBase.h
+using_graphic.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+using_graphic.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+using_graphic.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+using_graphic.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+using_graphic.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+using_graphic.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore
+using_graphic.o: ../hdr/Eigen/Core ../hdr/Eigen/src/SparseCore/SparseUtil.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+using_graphic.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+using_graphic.o: ../hdr/Eigen/OrderingMethods
+using_graphic.o: ../hdr/Eigen/src/OrderingMethods/Amd.h
+using_graphic.o: ../hdr/Eigen/SparseCholesky ../hdr/Eigen/src/misc/Solve.h
+using_graphic.o: ../hdr/Eigen/src/misc/SparseSolve.h
+using_graphic.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+using_graphic.o: ../hdr/Eigen/IterativeLinearSolvers
+using_graphic.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+using_graphic.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+using_graphic.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+using_graphic.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+using_graphic.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+using_graphic.o: ../hdr/matrix-stream.h ../hdr/random.h ../hdr/rv.h
+using_graphic.o: ../hdr/ss.h ../hdr/structure.h ../hdr/ctbndyn.h
+using_graphic.o: ../hdr/suffstatsquery.h ../hdr/extramath.h
+using_graphic.o: ../hdr/markovdyn.h ../hdr/markovsimple.h ../hdr/dynsimple.h
+using_graphic.o: ../hdr/dyncomp.h ../hdr/params.h ../hdr/utils.h
+using_graphic.o: ../hdr/ensurectbn.h ../hdr/ctbn.h ../hdr/bn.h
+using_graphic.o: ../hdr/multirv.h ../hdr/rvcomp.h ../hdr/multisimple.h
+clique_example.o: ../hdr/clique.h ../hdr/bn.h ../hdr/rv.h ../hdr/context.h
+clique_example.o: ../hdr/streamserial.h ../hdr/serial/serial.h
+clique_example.o: ../hdr/nullptr03.h ../hdr/streamserial-old.h
+clique_example.o: ../hdr/defines.h ../hdr/streamextra.h ../hdr/trajectory.h
+clique_example.o: ../hdr/random.h ../hdr/matrix.h ../hdr/matrix-eigen.h
+clique_example.o: ../hdr/Eigen/Core
+clique_example.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+clique_example.o: ../hdr/Eigen/src/Core/util/Macros.h
+clique_example.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+clique_example.o: ../hdr/Eigen/src/Core/util/Constants.h
+clique_example.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+clique_example.o: ../hdr/Eigen/src/Core/util/Meta.h
+clique_example.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+clique_example.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+clique_example.o: ../hdr/Eigen/src/Core/util/Memory.h
+clique_example.o: ../hdr/Eigen/src/Core/NumTraits.h
+clique_example.o: ../hdr/Eigen/src/Core/MathFunctions.h
+clique_example.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+clique_example.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+clique_example.o: ../hdr/Eigen/src/Core/Functors.h
+clique_example.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+clique_example.o: ../hdr/Eigen/src/Core/DenseBase.h
+clique_example.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+clique_example.o: ../hdr/Eigen/src/Core/MatrixBase.h
+clique_example.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+clique_example.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+clique_example.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+clique_example.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+clique_example.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+clique_example.o: ../hdr/Eigen/src/Core/Assign.h
+clique_example.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+clique_example.o: ../hdr/Eigen/src/Core/DenseStorage.h
+clique_example.o: ../hdr/Eigen/src/Core/NestByValue.h
+clique_example.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+clique_example.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+clique_example.o: ../hdr/Eigen/src/Core/NoAlias.h
+clique_example.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+clique_example.o: ../hdr/Eigen/src/Core/Matrix.h
+clique_example.o: ../hdr/Eigen/src/Core/Array.h
+clique_example.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+clique_example.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+clique_example.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+clique_example.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+clique_example.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+clique_example.o: ../hdr/Eigen/src/Core/Dot.h
+clique_example.o: ../hdr/Eigen/src/Core/StableNorm.h
+clique_example.o: ../hdr/Eigen/src/Core/MapBase.h
+clique_example.o: ../hdr/Eigen/src/Core/Stride.h ../hdr/Eigen/src/Core/Map.h
+clique_example.o: ../hdr/Eigen/src/Core/Block.h
+clique_example.o: ../hdr/Eigen/src/Core/VectorBlock.h
+clique_example.o: ../hdr/Eigen/src/Core/Transpose.h
+clique_example.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+clique_example.o: ../hdr/Eigen/src/Core/Diagonal.h
+clique_example.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+clique_example.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+clique_example.o: ../hdr/Eigen/src/Core/Transpositions.h
+clique_example.o: ../hdr/Eigen/src/Core/Redux.h
+clique_example.o: ../hdr/Eigen/src/Core/Visitor.h
+clique_example.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+clique_example.o: ../hdr/Eigen/src/Core/Swap.h
+clique_example.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+clique_example.o: ../hdr/Eigen/src/Core/Flagged.h
+clique_example.o: ../hdr/Eigen/src/Core/ProductBase.h
+clique_example.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+clique_example.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+clique_example.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+clique_example.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+clique_example.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+clique_example.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+clique_example.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+clique_example.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+clique_example.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+clique_example.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+clique_example.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+clique_example.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+clique_example.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+clique_example.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+clique_example.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+clique_example.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+clique_example.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+clique_example.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+clique_example.o: ../hdr/Eigen/src/Core/BandMatrix.h
+clique_example.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+clique_example.o: ../hdr/Eigen/src/Core/Select.h
+clique_example.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+clique_example.o: ../hdr/Eigen/src/Core/Random.h
+clique_example.o: ../hdr/Eigen/src/Core/Replicate.h
+clique_example.o: ../hdr/Eigen/src/Core/Reverse.h
+clique_example.o: ../hdr/Eigen/src/Core/ArrayBase.h
+clique_example.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+clique_example.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+clique_example.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+clique_example.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+clique_example.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+clique_example.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore
+clique_example.o: ../hdr/Eigen/Core ../hdr/Eigen/src/SparseCore/SparseUtil.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+clique_example.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+clique_example.o: ../hdr/Eigen/OrderingMethods
+clique_example.o: ../hdr/Eigen/src/OrderingMethods/Amd.h
+clique_example.o: ../hdr/Eigen/SparseCholesky ../hdr/Eigen/src/misc/Solve.h
+clique_example.o: ../hdr/Eigen/src/misc/SparseSolve.h
+clique_example.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+clique_example.o: ../hdr/Eigen/IterativeLinearSolvers
+clique_example.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+clique_example.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+clique_example.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+clique_example.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+clique_example.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+clique_example.o: ../hdr/matrix-stream.h ../hdr/structure.h ../hdr/ctbndyn.h
+clique_example.o: ../hdr/dynamics.h ../hdr/rvsimple.h ../hdr/ss.h
+clique_example.o: ../hdr/suffstatsquery.h ../hdr/markov.h ../hdr/process.h
+clique_example.o: ../hdr/extramath.h ../hdr/markovdyn.h ../hdr/markovsimple.h
+clique_example.o: ../hdr/dynsimple.h ../hdr/dyncomp.h
+emlearn.o: ../hdr/markov.h ../hdr/process.h ../hdr/dynamics.h
+emlearn.o: ../hdr/context.h ../hdr/streamserial.h ../hdr/serial/serial.h
+emlearn.o: ../hdr/nullptr03.h ../hdr/streamserial-old.h ../hdr/defines.h
+emlearn.o: ../hdr/streamextra.h ../hdr/trajectory.h ../hdr/rvsimple.h
+emlearn.o: ../hdr/matrix.h ../hdr/matrix-eigen.h ../hdr/Eigen/Core
+emlearn.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+emlearn.o: ../hdr/Eigen/src/Core/util/Macros.h
+emlearn.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+emlearn.o: ../hdr/Eigen/src/Core/util/Constants.h
+emlearn.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+emlearn.o: ../hdr/Eigen/src/Core/util/Meta.h
+emlearn.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+emlearn.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+emlearn.o: ../hdr/Eigen/src/Core/util/Memory.h
+emlearn.o: ../hdr/Eigen/src/Core/NumTraits.h
+emlearn.o: ../hdr/Eigen/src/Core/MathFunctions.h
+emlearn.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+emlearn.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+emlearn.o: ../hdr/Eigen/src/Core/Functors.h
+emlearn.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+emlearn.o: ../hdr/Eigen/src/Core/DenseBase.h
+emlearn.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+emlearn.o: ../hdr/Eigen/src/Core/MatrixBase.h
+emlearn.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+emlearn.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+emlearn.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+emlearn.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+emlearn.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+emlearn.o: ../hdr/Eigen/src/Core/Assign.h
+emlearn.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+emlearn.o: ../hdr/Eigen/src/Core/DenseStorage.h
+emlearn.o: ../hdr/Eigen/src/Core/NestByValue.h
+emlearn.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+emlearn.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+emlearn.o: ../hdr/Eigen/src/Core/NoAlias.h
+emlearn.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+emlearn.o: ../hdr/Eigen/src/Core/Matrix.h ../hdr/Eigen/src/Core/Array.h
+emlearn.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+emlearn.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+emlearn.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+emlearn.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+emlearn.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+emlearn.o: ../hdr/Eigen/src/Core/Dot.h ../hdr/Eigen/src/Core/StableNorm.h
+emlearn.o: ../hdr/Eigen/src/Core/MapBase.h ../hdr/Eigen/src/Core/Stride.h
+emlearn.o: ../hdr/Eigen/src/Core/Map.h ../hdr/Eigen/src/Core/Block.h
+emlearn.o: ../hdr/Eigen/src/Core/VectorBlock.h
+emlearn.o: ../hdr/Eigen/src/Core/Transpose.h
+emlearn.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+emlearn.o: ../hdr/Eigen/src/Core/Diagonal.h
+emlearn.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+emlearn.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+emlearn.o: ../hdr/Eigen/src/Core/Transpositions.h
+emlearn.o: ../hdr/Eigen/src/Core/Redux.h ../hdr/Eigen/src/Core/Visitor.h
+emlearn.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+emlearn.o: ../hdr/Eigen/src/Core/Swap.h
+emlearn.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+emlearn.o: ../hdr/Eigen/src/Core/Flagged.h
+emlearn.o: ../hdr/Eigen/src/Core/ProductBase.h
+emlearn.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+emlearn.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+emlearn.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+emlearn.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+emlearn.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+emlearn.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+emlearn.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+emlearn.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+emlearn.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+emlearn.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+emlearn.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+emlearn.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+emlearn.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+emlearn.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+emlearn.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+emlearn.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+emlearn.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+emlearn.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+emlearn.o: ../hdr/Eigen/src/Core/BandMatrix.h
+emlearn.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+emlearn.o: ../hdr/Eigen/src/Core/Select.h
+emlearn.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+emlearn.o: ../hdr/Eigen/src/Core/Random.h ../hdr/Eigen/src/Core/Replicate.h
+emlearn.o: ../hdr/Eigen/src/Core/Reverse.h ../hdr/Eigen/src/Core/ArrayBase.h
+emlearn.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+emlearn.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+emlearn.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+emlearn.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+emlearn.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+emlearn.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore ../hdr/Eigen/Core
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseUtil.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+emlearn.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+emlearn.o: ../hdr/Eigen/OrderingMethods
+emlearn.o: ../hdr/Eigen/src/OrderingMethods/Amd.h ../hdr/Eigen/SparseCholesky
+emlearn.o: ../hdr/Eigen/src/misc/Solve.h ../hdr/Eigen/src/misc/SparseSolve.h
+emlearn.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+emlearn.o: ../hdr/Eigen/IterativeLinearSolvers
+emlearn.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+emlearn.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+emlearn.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+emlearn.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+emlearn.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+emlearn.o: ../hdr/matrix-stream.h ../hdr/random.h ../hdr/rv.h ../hdr/ss.h
+emlearn.o: ../hdr/structure.h ../hdr/ctbndyn.h ../hdr/suffstatsquery.h
+emlearn.o: ../hdr/extramath.h ../hdr/params.h ../hdr/em.h ../hdr/inference.h
+emlearn.o: ../hdr/bn.h ../hdr/exactmarkovinf.h ../hdr/fbinf.h
+emlearn.o: ../hdr/dyncomp.h ../hdr/dynsimple.h ../hdr/rvcomp.h
+emlearn.o: ../hdr/multisimple.h ../hdr/ensurectbn.h ../hdr/ctbn.h
+emlearn.o: ../hdr/markovdyn.h ../hdr/markovsimple.h ../hdr/multirv.h
+makeqinput.o: ../hdr/markovdyn.h ../hdr/markovsimple.h ../hdr/dynsimple.h
+makeqinput.o: ../hdr/random.h ../hdr/matrix.h ../hdr/matrix-eigen.h
+makeqinput.o: ../hdr/streamserial.h ../hdr/serial/serial.h ../hdr/nullptr03.h
+makeqinput.o: ../hdr/streamserial-old.h ../hdr/defines.h ../hdr/streamextra.h
+makeqinput.o: ../hdr/Eigen/Core
+makeqinput.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+makeqinput.o: ../hdr/Eigen/src/Core/util/Macros.h
+makeqinput.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+makeqinput.o: ../hdr/Eigen/src/Core/util/Constants.h
+makeqinput.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+makeqinput.o: ../hdr/Eigen/src/Core/util/Meta.h
+makeqinput.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+makeqinput.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+makeqinput.o: ../hdr/Eigen/src/Core/util/Memory.h
+makeqinput.o: ../hdr/Eigen/src/Core/NumTraits.h
+makeqinput.o: ../hdr/Eigen/src/Core/MathFunctions.h
+makeqinput.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+makeqinput.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+makeqinput.o: ../hdr/Eigen/src/Core/Functors.h
+makeqinput.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+makeqinput.o: ../hdr/Eigen/src/Core/DenseBase.h
+makeqinput.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+makeqinput.o: ../hdr/Eigen/src/Core/MatrixBase.h
+makeqinput.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+makeqinput.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+makeqinput.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+makeqinput.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+makeqinput.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+makeqinput.o: ../hdr/Eigen/src/Core/Assign.h
+makeqinput.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+makeqinput.o: ../hdr/Eigen/src/Core/DenseStorage.h
+makeqinput.o: ../hdr/Eigen/src/Core/NestByValue.h
+makeqinput.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+makeqinput.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+makeqinput.o: ../hdr/Eigen/src/Core/NoAlias.h
+makeqinput.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+makeqinput.o: ../hdr/Eigen/src/Core/Matrix.h ../hdr/Eigen/src/Core/Array.h
+makeqinput.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+makeqinput.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+makeqinput.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+makeqinput.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+makeqinput.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+makeqinput.o: ../hdr/Eigen/src/Core/Dot.h ../hdr/Eigen/src/Core/StableNorm.h
+makeqinput.o: ../hdr/Eigen/src/Core/MapBase.h ../hdr/Eigen/src/Core/Stride.h
+makeqinput.o: ../hdr/Eigen/src/Core/Map.h ../hdr/Eigen/src/Core/Block.h
+makeqinput.o: ../hdr/Eigen/src/Core/VectorBlock.h
+makeqinput.o: ../hdr/Eigen/src/Core/Transpose.h
+makeqinput.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+makeqinput.o: ../hdr/Eigen/src/Core/Diagonal.h
+makeqinput.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+makeqinput.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+makeqinput.o: ../hdr/Eigen/src/Core/Transpositions.h
+makeqinput.o: ../hdr/Eigen/src/Core/Redux.h ../hdr/Eigen/src/Core/Visitor.h
+makeqinput.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+makeqinput.o: ../hdr/Eigen/src/Core/Swap.h
+makeqinput.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+makeqinput.o: ../hdr/Eigen/src/Core/Flagged.h
+makeqinput.o: ../hdr/Eigen/src/Core/ProductBase.h
+makeqinput.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+makeqinput.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+makeqinput.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+makeqinput.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+makeqinput.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+makeqinput.o: ../hdr/Eigen/src/Core/BandMatrix.h
+makeqinput.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+makeqinput.o: ../hdr/Eigen/src/Core/Select.h
+makeqinput.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+makeqinput.o: ../hdr/Eigen/src/Core/Random.h
+makeqinput.o: ../hdr/Eigen/src/Core/Replicate.h
+makeqinput.o: ../hdr/Eigen/src/Core/Reverse.h
+makeqinput.o: ../hdr/Eigen/src/Core/ArrayBase.h
+makeqinput.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+makeqinput.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+makeqinput.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+makeqinput.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+makeqinput.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+makeqinput.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore ../hdr/Eigen/Core
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseUtil.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+makeqinput.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+makeqinput.o: ../hdr/Eigen/OrderingMethods
+makeqinput.o: ../hdr/Eigen/src/OrderingMethods/Amd.h
+makeqinput.o: ../hdr/Eigen/SparseCholesky ../hdr/Eigen/src/misc/Solve.h
+makeqinput.o: ../hdr/Eigen/src/misc/SparseSolve.h
+makeqinput.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+makeqinput.o: ../hdr/Eigen/IterativeLinearSolvers
+makeqinput.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+makeqinput.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+makeqinput.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+makeqinput.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+makeqinput.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+makeqinput.o: ../hdr/matrix-stream.h ../hdr/ss.h ../hdr/rvsimple.h
+makeqinput.o: ../hdr/rv.h ../hdr/context.h ../hdr/trajectory.h
+makeqinput.o: ../hdr/dyncomp.h ../hdr/dynamics.h ../hdr/multirv.h
+makeqinput.o: ../hdr/rvcomp.h ../hdr/multisimple.h ../hdr/params.h
+makeqinput.o: ../hdr/bn.h ../hdr/structure.h ../hdr/ctbndyn.h
+makeqinput.o: ../hdr/suffstatsquery.h ../hdr/em.h ../hdr/inference.h
+makeqinput.o: ../hdr/process.h ../hdr/utils.h ../hdr/markov.h
+makeqinput.o: ../hdr/extramath.h
+makechain.o: ../hdr/markovdyn.h ../hdr/markovsimple.h ../hdr/dynsimple.h
+makechain.o: ../hdr/random.h ../hdr/matrix.h ../hdr/matrix-eigen.h
+makechain.o: ../hdr/streamserial.h ../hdr/serial/serial.h ../hdr/nullptr03.h
+makechain.o: ../hdr/streamserial-old.h ../hdr/defines.h ../hdr/streamextra.h
+makechain.o: ../hdr/Eigen/Core
+makechain.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+makechain.o: ../hdr/Eigen/src/Core/util/Macros.h
+makechain.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+makechain.o: ../hdr/Eigen/src/Core/util/Constants.h
+makechain.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+makechain.o: ../hdr/Eigen/src/Core/util/Meta.h
+makechain.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+makechain.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+makechain.o: ../hdr/Eigen/src/Core/util/Memory.h
+makechain.o: ../hdr/Eigen/src/Core/NumTraits.h
+makechain.o: ../hdr/Eigen/src/Core/MathFunctions.h
+makechain.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+makechain.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+makechain.o: ../hdr/Eigen/src/Core/Functors.h
+makechain.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+makechain.o: ../hdr/Eigen/src/Core/DenseBase.h
+makechain.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+makechain.o: ../hdr/Eigen/src/Core/MatrixBase.h
+makechain.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+makechain.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+makechain.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+makechain.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+makechain.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+makechain.o: ../hdr/Eigen/src/Core/Assign.h
+makechain.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+makechain.o: ../hdr/Eigen/src/Core/DenseStorage.h
+makechain.o: ../hdr/Eigen/src/Core/NestByValue.h
+makechain.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+makechain.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+makechain.o: ../hdr/Eigen/src/Core/NoAlias.h
+makechain.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+makechain.o: ../hdr/Eigen/src/Core/Matrix.h ../hdr/Eigen/src/Core/Array.h
+makechain.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+makechain.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+makechain.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+makechain.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+makechain.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+makechain.o: ../hdr/Eigen/src/Core/Dot.h ../hdr/Eigen/src/Core/StableNorm.h
+makechain.o: ../hdr/Eigen/src/Core/MapBase.h ../hdr/Eigen/src/Core/Stride.h
+makechain.o: ../hdr/Eigen/src/Core/Map.h ../hdr/Eigen/src/Core/Block.h
+makechain.o: ../hdr/Eigen/src/Core/VectorBlock.h
+makechain.o: ../hdr/Eigen/src/Core/Transpose.h
+makechain.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+makechain.o: ../hdr/Eigen/src/Core/Diagonal.h
+makechain.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+makechain.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+makechain.o: ../hdr/Eigen/src/Core/Transpositions.h
+makechain.o: ../hdr/Eigen/src/Core/Redux.h ../hdr/Eigen/src/Core/Visitor.h
+makechain.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+makechain.o: ../hdr/Eigen/src/Core/Swap.h
+makechain.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+makechain.o: ../hdr/Eigen/src/Core/Flagged.h
+makechain.o: ../hdr/Eigen/src/Core/ProductBase.h
+makechain.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+makechain.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+makechain.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+makechain.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+makechain.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+makechain.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+makechain.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+makechain.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+makechain.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+makechain.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+makechain.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+makechain.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+makechain.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+makechain.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+makechain.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+makechain.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+makechain.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+makechain.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+makechain.o: ../hdr/Eigen/src/Core/BandMatrix.h
+makechain.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+makechain.o: ../hdr/Eigen/src/Core/Select.h
+makechain.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+makechain.o: ../hdr/Eigen/src/Core/Random.h ../hdr/Eigen/src/Core/Replicate.h
+makechain.o: ../hdr/Eigen/src/Core/Reverse.h
+makechain.o: ../hdr/Eigen/src/Core/ArrayBase.h
+makechain.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+makechain.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+makechain.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+makechain.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+makechain.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+makechain.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore ../hdr/Eigen/Core
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseUtil.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+makechain.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+makechain.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+makechain.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+makechain.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+makechain.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+makechain.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+makechain.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+makechain.o: ../hdr/Eigen/OrderingMethods
+makechain.o: ../hdr/Eigen/src/OrderingMethods/Amd.h
+makechain.o: ../hdr/Eigen/SparseCholesky ../hdr/Eigen/src/misc/Solve.h
+makechain.o: ../hdr/Eigen/src/misc/SparseSolve.h
+makechain.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+makechain.o: ../hdr/Eigen/IterativeLinearSolvers
+makechain.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+makechain.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+makechain.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+makechain.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+makechain.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+makechain.o: ../hdr/matrix-stream.h ../hdr/ss.h ../hdr/rvsimple.h ../hdr/rv.h
+makechain.o: ../hdr/context.h ../hdr/trajectory.h ../hdr/dyncomp.h
+makechain.o: ../hdr/dynamics.h ../hdr/markov.h ../hdr/process.h
+makechain.o: ../hdr/structure.h ../hdr/ctbndyn.h ../hdr/suffstatsquery.h
+makechain.o: ../hdr/extramath.h ../hdr/multirv.h ../hdr/rvcomp.h
+makechain.o: ../hdr/multisimple.h ../hdr/params.h ../hdr/bn.h
+gen_partialdata.o: ../hdr/markov.h ../hdr/process.h ../hdr/dynamics.h
+gen_partialdata.o: ../hdr/context.h ../hdr/streamserial.h
+gen_partialdata.o: ../hdr/serial/serial.h ../hdr/nullptr03.h
+gen_partialdata.o: ../hdr/streamserial-old.h ../hdr/defines.h
+gen_partialdata.o: ../hdr/streamextra.h ../hdr/trajectory.h ../hdr/rvsimple.h
+gen_partialdata.o: ../hdr/matrix.h ../hdr/matrix-eigen.h ../hdr/Eigen/Core
+gen_partialdata.o: ../hdr/Eigen/src/Core/util/DisableStupidWarnings.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/util/Macros.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/util/MKL_support.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/util/Constants.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/util/ForwardDeclarations.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/util/Meta.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/util/XprHelper.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/util/StaticAssert.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/util/Memory.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/NumTraits.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/MathFunctions.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/GenericPacketMath.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/arch/Default/Settings.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Functors.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/DenseCoeffsBase.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/DenseBase.h
+gen_partialdata.o: ../hdr/Eigen/src/plugins/BlockMethods.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/MatrixBase.h
+gen_partialdata.o: ../hdr/Eigen/src/plugins/CommonCwiseUnaryOps.h
+gen_partialdata.o: ../hdr/Eigen/src/plugins/CommonCwiseBinaryOps.h
+gen_partialdata.o: ../hdr/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+gen_partialdata.o: ../hdr/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+gen_partialdata.o: ../hdr/matrix-eigenext.h ../hdr/Eigen/src/Core/EigenBase.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Assign.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/util/BlasUtil.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/DenseStorage.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/NestByValue.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/ForceAlignedAccess.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/ReturnByValue.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/NoAlias.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/PlainObjectBase.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Matrix.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Array.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/CwiseBinaryOp.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/CwiseUnaryOp.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/CwiseNullaryOp.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/CwiseUnaryView.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/SelfCwiseBinaryOp.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Dot.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/StableNorm.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/MapBase.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Stride.h ../hdr/Eigen/src/Core/Map.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Block.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/VectorBlock.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Transpose.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/DiagonalMatrix.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Diagonal.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/DiagonalProduct.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/PermutationMatrix.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Transpositions.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Redux.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Visitor.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Fuzzy.h ../hdr/Eigen/src/Core/IO.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Swap.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/CommaInitializer.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Flagged.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/ProductBase.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/GeneralProduct.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/TriangularMatrix.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/SelfAdjointView.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/SolveTriangular.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/Parallelizer.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/CoeffBasedProduct.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/GeneralMatrixVector.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrix.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixVector.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/SelfadjointProduct.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/SelfadjointRank2Update.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/TriangularMatrixVector.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/TriangularMatrixMatrix.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/TriangularSolverMatrix.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/products/TriangularSolverVector.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/BandMatrix.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/BooleanRedux.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Select.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/VectorwiseOp.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Random.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Replicate.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/Reverse.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/ArrayBase.h
+gen_partialdata.o: ../hdr/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+gen_partialdata.o: ../hdr/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/ArrayWrapper.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/GlobalFunctions.h
+gen_partialdata.o: ../hdr/Eigen/src/Core/util/ReenableStupidWarnings.h
+gen_partialdata.o: ../hdr/Eigen/Sparse ../hdr/Eigen/SparseCore
+gen_partialdata.o: ../hdr/Eigen/Core ../hdr/Eigen/src/SparseCore/SparseUtil.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseMatrixBase.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/CompressedStorage.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/AmbiVector.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseMatrix.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/MappedSparseMatrix.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseVector.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/CoreIterators.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseBlock.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseTranspose.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseDot.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparsePermutation.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseAssign.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseRedux.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseFuzzy.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseProduct.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseDenseProduct.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseDiagonalProduct.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseTriangularView.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseSelfAdjointView.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/TriangularSolver.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCore/SparseView.h
+gen_partialdata.o: ../hdr/Eigen/OrderingMethods
+gen_partialdata.o: ../hdr/Eigen/src/OrderingMethods/Amd.h
+gen_partialdata.o: ../hdr/Eigen/SparseCholesky ../hdr/Eigen/src/misc/Solve.h
+gen_partialdata.o: ../hdr/Eigen/src/misc/SparseSolve.h
+gen_partialdata.o: ../hdr/Eigen/src/SparseCholesky/SimplicialCholesky.h
+gen_partialdata.o: ../hdr/Eigen/IterativeLinearSolvers
+gen_partialdata.o: ../hdr/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+gen_partialdata.o: ../hdr/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+gen_partialdata.o: ../hdr/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+gen_partialdata.o: ../hdr/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+gen_partialdata.o: ../hdr/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+gen_partialdata.o: ../hdr/matrix-stream.h ../hdr/random.h ../hdr/rv.h
+gen_partialdata.o: ../hdr/ss.h ../hdr/structure.h ../hdr/ctbndyn.h
+gen_partialdata.o: ../hdr/suffstatsquery.h ../hdr/extramath.h ../hdr/params.h
+gen_partialdata.o: ../hdr/utils.h ../hdr/ensurectbn.h ../hdr/ctbn.h
+gen_partialdata.o: ../hdr/markovdyn.h ../hdr/markovsimple.h
+gen_partialdata.o: ../hdr/dynsimple.h ../hdr/dyncomp.h ../hdr/bn.h
+gen_partialdata.o: ../hdr/multirv.h ../hdr/rvcomp.h ../hdr/multisimple.h

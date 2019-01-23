@@ -1,0 +1,98 @@
+<CliqueTree>
+	<Context name="vars">
+		<map name="card">
+			<pair.int.int key="0" value="2" \>
+			<pair.int.int key="1" value="3" \>
+			<pair.int.int key="2" value="2" \>
+			<pair.int.int key="3" value="2" \>
+			<pair.int.int key="4" value="3" \>
+			<pair.int.int key="5" value="3" \>
+			<pair.int.int key="6" value="2" \>
+			<pair.int.int key="7" value="2" \>
+		<\map>
+	<\Context>
+	<int name="numrandrestarts" value="100" \>
+	<bool name="unit_test" value="1" \>
+	<vector nelem=16 name="data">
+		<CliqueNode>
+			<set.int nelem=1 name="connected">0 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=1 name="connected">1 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=1 name="connected">2 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=1 name="connected">3 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=1 name="connected">4 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=1 name="connected">5 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=1 name="connected">6 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=1 name="connected">7 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=2 name="connected">0 2 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=2 name="connected">0 1 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=2 name="connected">1 2 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=1 name="connected">3 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=3 name="connected">1 3 4 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=1 name="connected">5 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=3 name="connected">4 5 6 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+		<CliqueNode>
+			<set.int nelem=2 name="connected">4 7 <\set.int>
+			<vector nelem=0 name="next">
+			<\vector>
+		<\CliqueNode>
+	<\vector>
+<\CliqueTree>

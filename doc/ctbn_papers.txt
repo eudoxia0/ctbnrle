@@ -1,0 +1,183 @@
+The following are the academic papers we know about that pertain to
+continuous time Bayesian networks.  The code assumes knowledge of at least
+the first paper which is included in this directory.
+
+BASIC FORMULATION:
+
+Uri Nodelman, Christian R. Shelton, and Daphne Koller
+	(2002). "Continuous Time Bayesian Networks." Proceedings
+	of the Eighteenth International Conference on
+	Uncertainty in Artificial Intelligence (pp. 378-387).
+	http://www.cs.ucr.edu/~cshelton/papers/index.cgi?NodSheKol02
+[First paper formulating CTBNs.  It defines a CTBN's syntax and semantics
+ and briefly discusses an approximate inference method.]
+
+Tal El-Hay, Nir Friedman, Daphne Koller and Raz Kupferman (2006).
+	"Continuous Time Markov Networks", Proceedings of the Twenty-Second
+	Conference on Uncertainty in Artificial Intelligence (pp. 155-164).
+	http://ai.stanford.edu/~koller/Papers/El-Hay+al:UAI06.pdf
+[An undirected version of CTBNs that represents the subset of reversable
+ Markov processes.]
+
+
+LEARNING:
+
+Uri Nodelman, Christian R. Shelton, and Daphne Koller (2003). "Learning
+	Continuous Time Bayesian Networks." Proceedings of the Nineteenth
+	International Conference on Uncertainty in Artificial Intelligence
+	(pp.  451-458).
+	http://www.cs.ucr.edu/~cshelton/papers/index.cgi?NodSheKol03
+[Introduces the sufficient statistics for a CTBN and formulates the
+ maximum likelihood and maximum a posteriori parameter learning formulas
+ for the complete data case.  It also formulates a structure learning
+ method based on a Bayesian scoring function.]
+
+Uri Nodelman, Christian R. Shelton, and Daphne Koller (2005). "Expectation
+	Maximization and Complex Duration Distributions for Continuous Time
+	Bayesian Networks." Proceedings of the Twenty-First International
+	Conference on Uncertainty in Artificial Intelligence (pp. 421-430).
+	http://www.cs.ucr.edu/~cshelton/papers/index.cgi?NodSheKol05
+[Introduces expectation maximization for CTBNs to extend the parameter
+ and structure learning methods of the previous paper to the incomplete
+ data case.]
+
+
+INFERENCE:
+
+(The first paper from 2002 also discusses this to some degree)
+
+Uri Nodelman, Daphne Koller, and Christian R. Shelton (2005). "Expectation
+	Propagation for Continuous Time Bayesian Networks." Proceedings of the
+	Twenty-First International Conference on Uncertainty in Artificial
+	Intelligence (pp. 431-440).
+	http://www.cs.ucr.edu/~cshelton/papers/index.cgi?NodKolShe05
+[An approximate inference method based on expectation propagation.]
+
+Brenda Ng, Avi Pfeffer, and Richard Dearden (2005). "Continuous Time
+	Particle Filtering." Proceedings of the Nineteenth International
+	Joint Conference on Artificial Intelligence (pp. 1360-1365).
+[A particle filter for the case of an unobserved CTBN that is driving
+ stochastic differential equations whose values are observed at
+ discrete time points.]
+
+Nir Friedman and Rza Kupferman (2006). "Dimension Reduction in
+	Singularly Perturbed Continuous-Time Bayesian Networks."
+	Proceedings of the Twenty-Second International
+	Conference on Uncertainty in Artificial Intelligence.
+	http://www.ma.huji.ac.il/~razk/Publications/PDF/FK06.pdf
+[Demonstrates that a separation of time scales between variables can
+ lead to a simpler inference problem.]
+
+Suchi Saria, Uri Nodelman, and Daphne Koller (2007). "Reasoning at the
+	Right Time Granularity." Proceedings of the Twenty-third Conference
+	on Uncertainty in Artificial Intelligence" (pp. 421-430).
+	http://ai.stanford.edu/~nodelman/papers/dynamic-EP.pdf
+[An improved approximate inference method based on expectation
+ propagation.]
+
+Yu Fan and Christian R. Shelton (2008).  "Sampling for Approximate
+	Inference in Continuous Time Bayesian Networks."  Proceedings of
+	the Tenth International Symposium on Artificial Intelligence
+	and Mathematics.
+	http://www.cs.ucr.edu/~cshelton/papers/index.cgi?FanShe08
+[An importance sampling method and its extension to particle filtering
+ and smoothing.]
+
+Tal El-Hay, Nir Friedman, and Raz Kupferman (2008). "Gibbs Sampling in
+	Factorized Continuous-Time Markov Processes." Proceedings of the
+	Twenty-Fourth Conference on Uncertainty in Artificial Intelligence
+	(pp. 169-178).
+	http://uai2008.cs.helsinki.fi/UAI_camera_ready/el-hay.pdf
+[A method for Gibbs sampling for a CTBN.]
+
+Ido Cohn, Tal El-Hay, Raz Kupferman, and Nir Friedman (2009). "Mean
+	Field Variational Approximation for Continuous-Time Bayesian
+	Networks."  Proceedings of the Twenty-Fifth International
+	Conference on Uncertainty in Artificial Intelligence.
+	http://www.cs.mcgill.ca/~uai2009/papers/
+		UAI2009_0134_c9c16e478d8e82ecc3848c5dc76b4925.pdf
+[A mean field variational method for a CTBN.]
+
+Tal El-Hay, Ido Cohn, Nir Friedman, Raz Kupferman (2010). "Continuous-Time
+	Belief Propagation." Proceedings of the Twenty-Seventh International
+	Conference on Machine Learning.
+	http://www.cs.huji.ac.il/~nir/Papers/ElHayICML10.pdf
+[A BP method for a CTBN based on a Bethe energy approximation.]
+
+Vinayak Rao, Yee Whye Teh (2011). "Fast MCMC sampling for Markov jump
+	processes and continuous time Bayesian networks." Proceedings of the
+	Twenty-Seventh International Conference on Uncertainty in Artificial
+	Intelligence.
+	http://www.gatsby.ucl.ac.uk/~ywteh/research/compstats/RaoTeh2011a.pdf
+[An MCMC method using uniformization.]
+
+E. Busra Celikkaya, Christian R. Shelton, and William Lam (2011). "Factored
+	Filtering of Continuous-Time Systems." Proceedings of the
+	Twenty-Seventh International Conference on Uncertainty in
+	Artificial Intelligence.
+	http://www.cs.ucr.edu/~cshelton/papers/index.cgi?CelSheLam11
+[A factored matrix-exponential method using uniformization.]
+	
+
+OTHER EXTENSIONS:
+
+Karthik Gopalratnam, Henry Kautz, and Daniel S. Weld (2005).  "Extending
+	Continuous Time Bayesian Networks." Proceedings of 20th National
+	Conference on Artificial Intelligence-AAAI 2005 (pp. 981-986).
+	http://www.cs.washington.edu/homes/weld/papers/aaai05_CTBN.pdf
+[This presents an alternative to exponential duration distributions.]
+
+Shyamsundar Rajaram, Thore Graepel, and Ralf Herbrich (2005).
+	"Poisson-Networks: A Model for Structured Point Processes"
+	Proceedings of the Tenth International Workshop on
+	Artificial Intelligence and Statistics (pp. 277-284).
+	http://www.gatsby.ucl.ac.uk/aistats/fullpapers/200.pdf
+[This presents a CTBN-like network for counting variables.]
+
+Kin Fai Kan and Christian R. Shelton (2008). "Solving Structured
+	Continuous-Time Markov Decision Processes." Tenth International
+	Symposium on Artificial Intelligence and Mathematics.
+	http://www.cs.ucr.edu/~cshelton/papers/index.cgi?KanShe08
+[This presents an approximate continuous Markov decision process planning
+  solution using CTBN.]
+
+Luigi Portinale and Daniele Codetta-Raiteri (2009). "Generalizing
+	Continuous Time Bayesian Networks with Immediate Nodes."  
+	Proceedings on the Workshop on Graph Structured for Knowledge
+	Representation and Reasoning.
+	http://web.unipmn.it/%7Eraiteri/papers/gkr.pdf
+[Presents an extension for describing simultaneous transitions in a
+  CTBN and links it to generalized stochastic Petri nets.]
+
+
+APPLICATIONS:
+
+(most of the papers above have at least one application of a CTBN.  These
+ papers' main contributions are in applications, rather than theory.)
+
+Uri Nodelman and Eric Horvitz (2003). "Continuous Time Bayesian Networks
+	for Inferring Users' Presence and Activities with Extensions for
+	Modeling and Evaluation."  MSR-TR-2003-97, Microsoft Research.
+	http://research.microsoft.com/en-us/um/people/horvitz/uri_eh.pdf
+[Applies CTBNs to modeling user's use of desktop applications.]
+
+Ralf Herbrich, Thore Graepel, and Brendan Murphy (2007). "Structure from
+	Failure."  SYSML '07: Proceedings of the 2nd USENIX workshop on tackling
+	computer system problems with machine learning. pp. 1-6.
+	http://www.usenix.org/event/sysml07/tech/full_papers/herbrich/herbrich.pdf
+[Applies CTBNs to modeling failures in server farms.]
+
+Jing Xu and Christian R. Shelton (2008). "Continuous Time Bayesian Networks
+	for Host Level Network Intrusion Detection." Machine Learning
+	and Knowledge Discovery in Databases (ECML/PKDD) (LNAI, vol 5212)
+	(pp. 613-627).
+	http://www.cs.ucr.edu/~cshelton/papers/index.cgi?XuShe08
+[Applies CTBNs to host-level computer network intrusion detection.
+ Introduces "toggle" variables.]
+
+Yu Fan and Christian R. Shelton (2009). "Learning Continuous-Time Social
+	Network Dynamics." Proceedings of the Twenty-Fifth International Conference
+	on Uncertainty in Artificial Intelligence.
+	http://www.cs.ucr.edu/~cshelton/papers/index.cgi?YuShe09
+[Applies CTBNs to social network dynamics.  Introduces MCMC inference
+ method.]

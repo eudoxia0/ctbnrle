@@ -1,0 +1,54 @@
+How to compile:
+===============
+
+This code has been tested under Unix with the Gnu tools and Windows
+with Visual C++.  You may want to read the "Installing Graphviz" section
+first if you plan to use the visualization portion of the libraries.
+
+UNIX:
+
+The Makefile in src/ will make ctbn.a (a library of all of the object files).  
+"make" in demo/ will make the demos (including making the objects in src/
+if necessary), and "make" tst/ will make all of the unit/regression tests.
+Running the python script tst/unit_test.py will run each of the test
+scripts to confirm that the calculations are being performed correctly.
+
+Windows:
+
+Under Visual C++, you must create your own project.  Add all of the source
+files in src/ and all of the header files in hdr/.  Adding one "main" file
+(from tst/ or demo/) should allow the entire project to compile.  You may
+have a number of compile warnings about conversions from "size_t" to "int."
+These may be safely ignored.
+
+Using CMake:
+============
+Starting with release 1.1.0, we have added support for cmake.
+
+To use it with make (on Unix), look at the build.sh script in the base
+directory.  It shows how to configure glpk and then run cmake followed by
+make (from the directory ctbn_build_dir).  All resulting executables will
+be in the ctbn_build_dir under different directories.
+
+We hope to improve cmake support in future releases.
+
+Installing Graphviz:
+====================
+graphiviz is a graph layout program available from www.graphviz.org.
+The CTBNRLE uses the "dot" executable from it.  We have successfully tested
+CTBNRLE with graphviz version 2.14.1 (Oct 20, 2007) and version 2.26.3 (Jan
+26, 2010).
+
+Install graphviz as per the instructions on their website.  If the
+executable is not in your path, or you would like to explicitly state
+where to find it, you should edit src/graphic.cc and change the definition of
+DOTCOMMAND to the string containing the executable (with path) to be executed
+to run the "dot" program of graphviz.
+
+Tests:
+======
+"make test" from the cmake build directory or "python ./unit_test.py"
+from the tst/ directory will run a bank of tests.  Note that the SEM test
+will take a few minutes (much longer if compiler speed optimizations are
+not on).  Very occasionally one of the sampling tests will fail.  Rerunning
+(ie with a different random seed) will fix it.
